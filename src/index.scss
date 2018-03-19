@@ -1,5 +1,19 @@
-$icon-font-path: "bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-@import "bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+//overwrite the default path set by bootstrap _variables.scss for $icon-font-path where it pointed to ../fonts/bootstrap
+$icon-font-path: '../fonts/' !default;
+
+/**
+ *  Do not remove the comments below. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+
+/**
+ *  Do not remove the comments below. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector
 
 .oraono {
   background-color: gray;
