@@ -1,0 +1,9 @@
+<h1>{{ vm.hello }}</h1>
+<button class="btn btn-primary"><i class="glyphicon glyphicon-asterisk"></i>   YEEE!</button>
+<div>
+    <div>
+        {{vm.markers}}
+    </div>
+    <leaflet defaults="vm.defaults" lf-center="vm.center" markers="vm.markers" event-broadcast="vm.events" height="200px"></leaflet>
+    <!-- <leaflet id="map-simple-map" height="480px"></leaflet> -->
+</div>
