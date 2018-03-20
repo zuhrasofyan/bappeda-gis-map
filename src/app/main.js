@@ -6,10 +6,11 @@ angular
     controllerAs: 'vm'
   });
 
-function mainController($scope, leafletDirective) {
+function mainController($scope) {
   var vm = this;
   vm.hello = 'Hello hai hai';
   vm.events = {};
+
   vm.markers = [{
     lat: 5.551,
     lng: 95.322,
@@ -30,7 +31,9 @@ function mainController($scope, leafletDirective) {
     lng: 95.322,
     zoom: 15
   };
-  $scope.$on("leafletDirectiveMap.click", function(event, args){
+  // if click on map, add marker by pushing it to vm.markers array
+  $scope.$on('leafletDirectiveMap.click', function (event, args) {
+    // console.log(args);
     var leafEvent = args.leafletEvent;
     var lat = leafEvent.latlng.lat;
     var lng = leafEvent.latlng.lng;
@@ -41,6 +44,18 @@ function mainController($scope, leafletDirective) {
       draggable: true,
       focus: true
     });
-});
+  });
 
+  // if doubleclick on marker, remove marker by filtering it based on marker lattitude
+  $scope.$on('leafletDirectiveMarker.dblclick', function (event, args) {
+    vm.markers = vm.markers.filter(function (el) {
+      return el.lat !== args.model.lat;
+    });
+  });
+
+  vm.status = {
+    isCustomHeaderOpen: false,
+    isFirstOpen: true,
+    isFirstDisabled: false
+  };
 }
