@@ -45,7 +45,7 @@
 
 <div class="row">
     <div class="col-xs-8">
-        <leaflet defaults="vm.defaults" lf-center="vm.center" markers="vm.markers" event-broadcast="vm.events" height="92vh"></leaflet>
+        <leaflet layers="vm.defaults" lf-center="vm.center" markers="vm.markers" controls="vm.controls" event-broadcast="vm.events" height="92vh"></leaflet>
     </div>
     <div class="col-xs-4" style="overflow-y: auto; height: 92vh; font-size: 12px;">
         <table class="table table-condensed">
@@ -62,10 +62,16 @@
                 <td>{{marker.id}}</td>
                 <td>{{marker.lat}}</td>
                 <td>{{marker.lng}}</td>
-                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.info"></td>
+                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.message"></td>
                 <td><button class="btn btn-danger btn-xs" ng-click="vm.removeMarker(marker)"><i class="glyphicon glyphicon-trash"></i></button></td>
             </tr>
         </table>
         <button class="btn btn-danger" ng-click="vm.removeMarkers()" ng-if="vm.markers.length !== 0"><i class="glyphicon glyphicon-trash"></i> Delete Semua</button>
+        <div>
+            pilih layer: {{vm.selectedLayer}}
+            <button class="btn btn-danger" ng-click="vm.selectedLayer = 'satu'">satu</button>
+            <button class="btn btn-danger" ng-click="vm.selectedLayer = 'dua'">dua</button>
+            {{vm.markers}}
+        </div>
     </div>
 </div>

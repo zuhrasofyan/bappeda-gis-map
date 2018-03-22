@@ -11,15 +11,55 @@ function mainController($scope, leafletData, $timeout) {
   vm.hello = 'Hello hai hai';
   vm.events = {};
   vm.navCollapsed = true;
+  vm.selectedLayer = 'satu';
 
   vm.markers = [];
+  vm.controls = {
+    draw: {}
+  };
   vm.defaults = {
-    tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    maxZoom: 20,
-    path: {
-      weight: 10,
-      color: '#800000',
-      opacity: 1
+    baselayers: {
+      // tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      // maxZoom: 20,
+      // path: {
+      //   weight: 10,
+      //   color: '#800000',
+      //   opacity: 1
+      // }
+      mapboxLight: {
+        name: 'Mapbox Light',
+        url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        type: 'xyz',
+        maxZoom: 20,
+        // path: {
+        //   weight: 10,
+        //   color: '#800000',
+        //   opacity: 1
+        // },
+        layerParams: {
+          showOnSelector: false
+        }
+      }
+    },
+    overlays: {
+      draw: {
+        name: 'draw',
+        type: 'group',
+        visible: true,
+        layerParams: {
+          showOnSelector: false
+        }
+      },
+      satu: {
+        name: 'SATU',
+        type: 'group',
+        visible: true
+      },
+      dua: {
+        name: 'DUA',
+        type: 'group',
+        visible: true
+      }
     }
   };
   vm.center = {
@@ -27,6 +67,17 @@ function mainController($scope, leafletData, $timeout) {
     lng: 95.322,
     zoom: 15
   };
+
+  leafletData.getMap().then(function (map) {
+    leafletData.getLayers().then(function(baselayers) {
+      var drawnItems = baselayers.overlays.draw;
+      map.on('draw:created', function (e) {
+        var layer = e.layer;
+        drawnItems.addLayer(layer);
+        console.log(JSON.stringify(layer.toGeoJSON()));
+      });
+    });
+  });
 
   // Use this function to operate to give a blinking effect color in the responding div, based on selected marker.
   var blinkClick = function (idFromMarker) {
@@ -56,15 +107,17 @@ function mainController($scope, leafletData, $timeout) {
   // if click on map, add marker by pushing it to vm.markers array
   $scope.$on('leafletDirectiveMap.click', function (event, args) {
     // console.log(args);
+    var layer = vm.selectedLayer;
     var leafEvent = args.leafletEvent;
     var lat = leafEvent.latlng.lat;
     var lng = leafEvent.latlng.lng;
     var id = makeid();
     var info = 'marker baru';
     vm.markers.push({
+      layer: layer,
       lat: leafEvent.latlng.lat,
       lng: leafEvent.latlng.lng,
-      message: '<b>ID: ' + id + '</b>',
+      message: info,
       draggable: true,
       focus: true,
       id: id,
