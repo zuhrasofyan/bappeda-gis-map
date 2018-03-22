@@ -10,6 +10,7 @@ function mainController($scope, leafletData, $timeout) {
   var vm = this;
   vm.hello = 'Hello hai hai';
   vm.events = {};
+  vm.navCollapsed = true;
 
   vm.markers = [];
   vm.defaults = {
