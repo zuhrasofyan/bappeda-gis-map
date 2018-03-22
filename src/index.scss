@@ -15,6 +15,13 @@ $icon-font-path: '../fonts/' !default;
 // injector
 // endinjector
 
-.oraono {
-  background-color: gray;
+@import "styles/navbar.scss";
+
+.navbar {
+  margin-bottom: 0px;
+  border-radius: 0px;
+}
+
+.blinking {
+  background-color: fuchsia;
 }
