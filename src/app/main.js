@@ -13,10 +13,17 @@ function mainController($scope, leafletData, $timeout) {
   vm.navCollapsed = true;
   vm.selectedLayer = 'satu';
 
+  angular.element(document.querySelector('.leaflet-draw')).addClass('my-class');
+
   vm.markers = [];
   vm.controls = {
-    draw: {}
+    draw: {
+      draw: {
+        marker: false
+      }
+    }
   };
+
   vm.defaults = {
     baselayers: {
       // tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -37,17 +44,37 @@ function mainController($scope, leafletData, $timeout) {
         //   opacity: 1
         // },
         layerParams: {
-          showOnSelector: false
+          showOnSelector: true
         }
       }
     },
     overlays: {
+      // fire: {
+      //   name: "Fire Stations",
+      //   type: "xyz",
+      //   url: "http://openfiremap.org/hytiles/{z}/{x}/{y}.png",
+      //   layerOptions: {
+      //     attribution: "&copy; <a href=\"http://www.openfiremap.org\">OpenFireMap</a> contributors - &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+      //     continuousWorld: true
+      //   },
+      //   group: "Open Fire Map"
+      // },
+      // em: {
+      //   name: "Emergency Rooms",
+      //   type: "xyz",
+      //   url: "http://openfiremap.org/eytiles/{z}/{x}/{y}.png",
+      //   layerOptions: {
+      //     attribution: "&copy; <a href=\"http://www.openfiremap.org\">OpenFireMap</a> contributors - &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+      //     continuousWorld: true
+      //   },
+      //   group: "Open Fire Map"
+      // },
       draw: {
         name: 'draw',
         type: 'group',
-        visible: true,
-        layerParams: {
-          showOnSelector: false
+        visible: false,
+        layerOptions: {
+          showOnSelector: true
         }
       },
       satu: {
@@ -59,7 +86,74 @@ function mainController($scope, leafletData, $timeout) {
         name: 'DUA',
         type: 'group',
         visible: true
-      }
+      },
+      lokasi: {
+        name: 'Lokasi Utama',
+        type: 'wms',
+        visible: true,
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        layerOptions: {
+          layers: 'uptb_gis_bna:lokasi_utama',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        },
+        group: 'POI'
+      },
+      kantor: {
+        name: 'Perkantoran',
+        type: 'wms',
+        visible: false,
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        layerParams: {
+          layers: 'uptb_gis_bna:lokasi_kantor',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        },
+        group: 'POI'
+      },
+      miniMarket: {
+        name: 'Lokasi Swalayan Survey Bappeda 2016',
+        type: 'wms',
+        visible: false,
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        layerParams: {
+          layers: 'uptb_gis_bna:mini_market_2016_mysql',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        }
+      },
+      baliho2016: {
+        name: 'Lokasi Baliho Survey Bappeda 2016',
+        type: 'wms',
+        visible: false,
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        layerParams: {
+          layers: 'uptb_gis_bna:baliho_2016',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        }
+      },
+      fiberOptic2017: {
+        name: 'Titik Fiber Optic Tower - Dinas Perhubungan Banda Aceh 2017',
+        type: 'wms',
+        visible: false,
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        layerParams: {
+          layers: 'uptb_gis_bna:tiang_fo_jenis_tinggi_tiang_dengan_style',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        }
+      },
     }
   };
   vm.center = {
@@ -104,25 +198,52 @@ function mainController($scope, leafletData, $timeout) {
     });
   };
 
+  vm.toggleDraw = function (layerName) {
+    vm.selectedLayer = layerName;
+    if (vm.selectedLayer === 'draw') {
+      if (vm.defaults.overlays.draw.visible === true) {
+        vm.defaults.overlays.draw.visible = false;
+        // angular.element(document.querySelector('.leaflet-draw-section')).addClass('my-class');
+        angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'hidden');
+      } else {
+        vm.defaults.overlays.draw.visible = true;
+        // angular.element(document.querySelector('.leaflet-draw-section')).removeClass('my-class');
+        angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'visible');
+      }
+    } else {
+      vm.defaults.overlays.draw.visible = false;
+      angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'hidden');
+    }
+    // if (vm.selectedLayer !== 'draw') {
+    //   vm.selectedLayer = lae;
+    //   //vm.controls.draw = false;
+    // } else {
+    //   vm.selectedLayer = layerName;
+    //   //vm.controls = true;
+    // } 
+  };
+
   // if click on map, add marker by pushing it to vm.markers array
   $scope.$on('leafletDirectiveMap.click', function (event, args) {
     // console.log(args);
-    var layer = vm.selectedLayer;
-    var leafEvent = args.leafletEvent;
-    var lat = leafEvent.latlng.lat;
-    var lng = leafEvent.latlng.lng;
-    var id = makeid();
-    var info = 'marker baru';
-    vm.markers.push({
-      layer: layer,
-      lat: leafEvent.latlng.lat,
-      lng: leafEvent.latlng.lng,
-      message: info,
-      draggable: true,
-      focus: true,
-      id: id,
-      info: info
-    });
+    if (vm.selectedLayer !== 'draw') {
+      var layer = vm.selectedLayer;
+      var leafEvent = args.leafletEvent;
+      var lat = leafEvent.latlng.lat;
+      var lng = leafEvent.latlng.lng;
+      var id = makeid();
+      var info = 'marker baru';
+      vm.markers.push({
+        layer: layer,
+        lat: lat,
+        lng: lng,
+        message: info,
+        draggable: true,
+        focus: true,
+        id: id,
+        info: info
+      });
+    }
   });
 
   $scope.$on('leafletDirectiveMarker.click', function (event, args) {
