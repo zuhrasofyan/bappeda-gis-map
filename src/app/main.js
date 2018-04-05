@@ -13,8 +13,6 @@ function mainController($scope, leafletData, $timeout) {
   vm.navCollapsed = true;
   vm.selectedLayer = 'satu';
 
-  angular.element(document.querySelector('.leaflet-draw')).addClass('my-class');
-
   vm.markers = [];
   vm.controls = {
     draw: {
@@ -33,11 +31,26 @@ function mainController($scope, leafletData, $timeout) {
       //   color: '#800000',
       //   opacity: 1
       // }
+      bappedaBaseMap: {
+        name: 'Bappeda Basemap',
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        type: 'wms',
+        maxZoom: 20,
+        visible: true,
+        layerOptions: {
+          layers: 'uptb_gis_bna_basemap_bappeda',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        }
+      },
       mapboxLight: {
-        name: 'Mapbox Light',
+        name: 'OSM',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         type: 'xyz',
         maxZoom: 20,
+        visible: false,
         // path: {
         //   weight: 10,
         //   color: '#800000',
@@ -97,7 +110,8 @@ function mainController($scope, leafletData, $timeout) {
           format: 'image/png',
           transparent: true,
           tiled: true,
-          showOnSelector: true
+          showOnSelector: true,
+          zIndex: 1000
         },
         group: 'POI'
       },
@@ -111,7 +125,8 @@ function mainController($scope, leafletData, $timeout) {
           format: 'image/png',
           transparent: true,
           tiled: true,
-          showOnSelector: true
+          showOnSelector: true,
+          zIndex: 1000
         },
         group: 'POI'
       },
@@ -125,7 +140,8 @@ function mainController($scope, leafletData, $timeout) {
           format: 'image/png',
           transparent: true,
           tiled: true,
-          showOnSelector: true
+          showOnSelector: true,
+          zIndex: 1000
         }
       },
       baliho2016: {
@@ -138,7 +154,8 @@ function mainController($scope, leafletData, $timeout) {
           format: 'image/png',
           transparent: true,
           tiled: true,
-          showOnSelector: true
+          showOnSelector: true,
+          zIndex: 1000
         }
       },
       fiberOptic2017: {
@@ -151,9 +168,10 @@ function mainController($scope, leafletData, $timeout) {
           format: 'image/png',
           transparent: true,
           tiled: true,
-          showOnSelector: true
+          showOnSelector: true,
+          zIndex: 1000
         }
-      },
+      }
     }
   };
   vm.center = {
@@ -163,7 +181,7 @@ function mainController($scope, leafletData, $timeout) {
   };
 
   leafletData.getMap().then(function (map) {
-    leafletData.getLayers().then(function(baselayers) {
+    leafletData.getLayers().then(function (baselayers) {
       var drawnItems = baselayers.overlays.draw;
       map.on('draw:created', function (e) {
         var layer = e.layer;
@@ -214,13 +232,6 @@ function mainController($scope, leafletData, $timeout) {
       vm.defaults.overlays.draw.visible = false;
       angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'hidden');
     }
-    // if (vm.selectedLayer !== 'draw') {
-    //   vm.selectedLayer = lae;
-    //   //vm.controls.draw = false;
-    // } else {
-    //   vm.selectedLayer = layerName;
-    //   //vm.controls = true;
-    // } 
   };
 
   // if click on map, add marker by pushing it to vm.markers array
