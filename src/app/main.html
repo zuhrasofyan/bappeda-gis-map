@@ -36,8 +36,8 @@
             <tr ng-repeat="marker in vm.markers" id="{{marker.id}}">
                 <td>{{$index+1}}.</td>
                 <td>{{marker.id}}</td>
-                <td>{{marker.lat}}</td>
-                <td>{{marker.lng}}</td>
+                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lat"></td>
+                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lng"></td>
                 <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.message"></td>
                 <td><button class="btn btn-danger btn-xs" ng-click="vm.removeMarker(marker)"><i class="glyphicon glyphicon-trash"></i></button></td>
             </tr>
