@@ -1,5 +1,7 @@
 angular
   .module('app', ['ui.router', 'angular-storage', 'angular-jwt', 'ngAnimate', 'ngTouch', 'ui.bootstrap', 'nemLogging', 'ui-leaflet'])
+  // 'APIURL', 'https://bappeda.bandaacehkota.go.id/service/kpk/'
+  .constant('APIURL', 'http://localhost:1337/')
   .run(function ($rootScope, $state, store, jwtHelper, $location, authManager) {
     // authManager.checkAuthOnRefresh();
     // run check on each of refreshed state

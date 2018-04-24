@@ -1,10 +1,10 @@
 angular
   .module('app')
-  .service('AuthService', function ($http, $rootScope, store, UserService, authManager, $state){
+  .service('AuthService', function ($http, $rootScope, store, UserService, authManager, $state, APIURL){
     var vm = this;
 
     function submitRegister(userData) {
-      $http.post('http://localhost:1337/register', {
+      $http.post(APIURL + 'register', {
         email: userData.email,
         password: userData.password
       }).then(function(result){
@@ -20,7 +20,7 @@ angular
     }
 
     function submitLogin(loginData) {
-      $http.post('http://localhost:1337/auth/login', {
+      $http.post(APIURL + 'auth/login', {
         email: loginData.email,
         password: loginData.password
       }).then(function(result){
