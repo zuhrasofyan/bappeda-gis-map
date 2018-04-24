@@ -39,7 +39,8 @@
             
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a ui-sref="login">Login</a></li>
+            <li ng-if="!vm.isAuthenticated"><a ui-sref="login">Login</a></li>
+            <li ng-if="vm.isAuthenticated"><button class="btn navbar-btn btn-primary" ng-click="vm.logout()">Logout</button></li>
         </ul>
     </div>
     <!-- /.navbar-collapse -->

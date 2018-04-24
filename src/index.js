@@ -1,6 +1,6 @@
 angular
   .module('app', ['ui.router', 'angular-storage', 'angular-jwt', 'ngAnimate', 'ngTouch', 'ui.bootstrap', 'nemLogging', 'ui-leaflet'])
-  .run(function ($rootScope, $state, store, jwtHelper, $location, authManager){
+  .run(function ($rootScope, $state, store, jwtHelper, $location, authManager) {
     // authManager.checkAuthOnRefresh();
     // run check on each of refreshed state
     $rootScope.$on('$locationChangeStart', function() {

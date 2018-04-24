@@ -35,7 +35,7 @@ angular
           UserService.setCurrentToken(result.data.token);
           authManager.authenticate();
 
-          $state.go('dashboard.home');
+          $state.go('dashboard');
 
         } else {
           if (result.status === 400) {
