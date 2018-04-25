@@ -13,13 +13,15 @@ function mainController($scope, leafletData, $timeout) {
  
   vm.selectedLayer = 'satu';
 
+  vm.isDrawVisible = false;
+
   vm.markers = [];
   vm.controls = {
     draw: {
       draw: {
         marker: false
       }
-    }
+    },
   };
 
   vm.defaults = {
@@ -45,6 +47,34 @@ function mainController($scope, leafletData, $timeout) {
           showOnSelector: true
         }
       },
+      ikonos2005BaseMap: {
+        name: 'Basemap IKONOS 2005',
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        type: 'wms',
+        maxZoom: 20,
+        visible: true,
+        layerOptions: {
+          layers: 'uptb_gis_bna:Ikonos_Jan2005_V2',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        }
+      },
+      ikonos2002BaseMap: {
+        name: 'Basemap IKONOS 2002',
+        url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        type: 'wms',
+        maxZoom: 20,
+        visible: true,
+        layerOptions: {
+          layers: 'uptb_gis_bna:Ikonos_2002',
+          format: 'image/png',
+          transparent: true,
+          tiled: true,
+          showOnSelector: true
+        }
+      },
       mapboxLight: {
         name: 'OSM',
         url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -59,6 +89,37 @@ function mainController($scope, leafletData, $timeout) {
         layerParams: {
           showOnSelector: true
         }
+      },
+      bingRoad: {
+        name: 'Bing Jalan',
+        type: 'bing',
+        key: 'AlShs5Jq3KqQxpuRNEtxI4_LL5H4-okI9vxBBE_TZo2TNtJNe2Kl2le-rJ4F9jS7',
+        layerOptions: {
+          type: 'Road'
+        }
+      },
+      bingTerrain: {
+        name: 'Bing Satelit',
+        type: 'bing',
+        key: 'AlShs5Jq3KqQxpuRNEtxI4_LL5H4-okI9vxBBE_TZo2TNtJNe2Kl2le-rJ4F9jS7',
+        layerOptions: {
+          type: 'Aerial'
+        }
+      },
+      // googleTerrain: {
+      //   name: 'Google Terrain',
+      //   layerType: 'TERRAIN',
+      //   type: 'google'
+      // },
+      googleHybrid: {
+        name: 'Google Satelit',
+        layerType: 'HYBRID',
+        type: 'google'
+      },
+      googleRoadmap: {
+        name: 'Google (Jalan)',
+        layerType: 'ROADMAP',
+        type: 'google'
       }
     },
     overlays: {
@@ -85,32 +146,41 @@ function mainController($scope, leafletData, $timeout) {
       draw: {
         name: 'draw',
         type: 'group',
-        visible: false,
-        layerOptions: {
+        visible: true,
+        layerParams: {
           showOnSelector: true
         }
       },
       satu: {
         name: 'SATU',
         type: 'group',
-        visible: true
+        visible: true,
+        layerParams: {
+          showOnSelector: true
+        }
       },
       dua: {
         name: 'DUA',
         type: 'group',
-        visible: true
+        visible: true,
+        layerParams: {
+          showOnSelector: true
+        }
       },
       lokasi: {
         name: 'Lokasi Utama',
         type: 'wms',
         visible: true,
         url: 'https://bappeda.bandaacehkota.go.id/geoserver/uptb_gis_bna/wms',
+        layerParams: {
+          showOnSelector: true
+        },
         layerOptions: {
           layers: 'uptb_gis_bna:lokasi_utama',
           format: 'image/png',
           transparent: true,
           tiled: true,
-          showOnSelector: true,
+          showOnSelector: false,
           zIndex: 1000
         },
         group: 'POI'
@@ -219,17 +289,19 @@ function mainController($scope, leafletData, $timeout) {
   vm.toggleDraw = function (layerName) {
     vm.selectedLayer = layerName;
     if (vm.selectedLayer === 'draw') {
-      if (vm.defaults.overlays.draw.visible === true) {
-        vm.defaults.overlays.draw.visible = false;
+      vm.defaults.overlays.draw.visible = true;
+      if (vm.isDrawVisible === true) {
+        vm.isDrawVisible = false;
         // angular.element(document.querySelector('.leaflet-draw-section')).addClass('my-class');
         angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'hidden');
       } else {
-        vm.defaults.overlays.draw.visible = true;
+        vm.isDrawVisible = true;
         // angular.element(document.querySelector('.leaflet-draw-section')).removeClass('my-class');
         angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'visible');
       }
     } else {
       vm.defaults.overlays.draw.visible = false;
+      vm.isDrawVisible = false;
       angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'hidden');
     }
   };
