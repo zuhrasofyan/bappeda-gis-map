@@ -30,6 +30,12 @@ $icon-font-path: '../fonts/' !default;
 .leaflet-draw-section {
   visibility: hidden;
 }
+
+// hide selector control
+// .leaflet-control-layers.leaflet-control {
+// 	display: none;
+// }
+
 // .angular-leaflet-control-layers {
 //   position: absolute;
 //   background: white;
