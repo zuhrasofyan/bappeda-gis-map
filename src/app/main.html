@@ -1,6 +1,7 @@
 <header></header>
 <div class="row">
     <div class="col-xs-8">
+        <div uib-alert class="alert-warning" style="max-width: 400px; position: absolute; right: 50%; z-index: 2000;" dismiss-on-timeout="2000" close="vm.closeAlert()" ng-if="!vm.close">layer anda yang aktif saat ini: {{vm.selectedLayer}}</div>
         <leaflet layers="vm.defaults" lf-center="vm.center" markers="vm.markers" controls="vm.controls" event-broadcast="vm.events" height="92vh"></leaflet>
     </div>
     <div class="col-xs-4" style="overflow-y: auto; height: 92vh; font-size: 12px;">
