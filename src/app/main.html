@@ -21,15 +21,18 @@
                 <div>
                     <h5>layer yang aktif saat ini: {{vm.selectedLayer.label}}</h5>
                 </div>
-                <div>
+
+                <!--  Tambah Layer! -->
+                <!-- <div>
                     <button class="btn btn-primary" ng-if="!vm.showAddLayerButton" ng-click="vm.buttonShowAddLayer()">Tambah layer</button>
                     <div ng-if="vm.showAddLayerButton">
                         <input type="text" ng-model="vm.nameCustomLayer">
                         <button class="btn btn-primary" ng-click="vm.addCustomLayer(vm.nameCustomLayer)">Tambah!</button>
                     </div>
-                </div>
-                {{vm.markers | filter: vm.selectedLayer.label}}
+                </div> -->
+                <!-- {{vm.markers | filter: vm.selectedLayer.label}} -->
                 <!-- {{vm.defaults.overlays}} -->
+                
             </div>
         </div>
        
