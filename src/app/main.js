@@ -51,6 +51,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
       label: layerName
     });
     // cannot since its overlay not updated by angular digest
+    var newCustomLayer = {
       name: layerName,
       type: 'group',
       visible: true,
