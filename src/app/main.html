@@ -1,10 +1,10 @@
 <header></header>
-<div class="row">
-    <div class="col-xs-8">
-        <div uib-alert class="alert-warning" style="max-width: 400px; position: absolute; right: 50%; z-index: 2000;" dismiss-on-timeout="2000" close="vm.closeAlert()" ng-if="!vm.close">layer anda yang aktif saat ini: {{vm.selectedLayer}}</div>
+<div class="row" style="margin-right: 0px;">
+    <div class="col-xs-7">
+        <div uib-alert class="alert-warning" style="max-width: 400px; position: absolute; right: 50%; z-index: 2000;" dismiss-on-timeout="2000" close="vm.closeAlert()" ng-if="!vm.close">layer anda yang aktif saat ini: {{vm.selectedLayer.label}}</div>
         <leaflet layers="vm.defaults" lf-center="vm.center" markers="vm.markers" controls="vm.controls" event-broadcast="vm.events" height="92vh"></leaflet>
     </div>
-    <div class="col-xs-4" style="overflow-y: auto; height: 92vh; font-size: 12px;">
+    <div class="col-xs-5" style="overflow-y: auto; height: 92vh; font-size: 12px;">
         <!-- <div>
             pilih layer: {{vm.selectedLayer}} <br> -->
             <!-- {{vm.controls}}
@@ -12,19 +12,27 @@
             <button class="btn btn-success" ng-click="vm.toggleDraw('clear')">clear</button>
             {{vm.markers}} 
         </div> -->
-        <div class="panel panel-default" style="margin-top: 5px;">
+        <div class="panel panel-default" style="margin-top: 5px;">  
             <div class="panel-heading">
               <h3 class="panel-title">Pilih Layer yang akan diaktifkan</h3>
             </div>
             <div class="panel-body">
-                <button class="btn btn-primary" ng-click="vm.toggleDraw('satu')">satu</button>
-                <button class="btn btn-primary" ng-click="vm.toggleDraw('dua')">dua</button>
-                <button class="btn btn-success" ng-click="vm.toggleDraw('draw')">draw</button>
+                <select class="form-control" ng-options="layer as layer.label for layer in vm.listLayer track by layer.id" ng-model="vm.selectedLayer" ng-change="vm.toggleDraw(vm.selectedLayer)"></select>
                 <div>
-                    <h5>layer yang aktif saat ini: {{vm.selectedLayer}}</h5>
+                    <h5>layer yang aktif saat ini: {{vm.selectedLayer.label}}</h5>
                 </div>
+                <div>
+                    <button class="btn btn-primary" ng-if="!vm.showAddLayerButton" ng-click="vm.buttonShowAddLayer()">Tambah layer</button>
+                    <div ng-if="vm.showAddLayerButton">
+                        <input type="text" ng-model="vm.nameCustomLayer">
+                        <button class="btn btn-primary" ng-click="vm.addCustomLayer(vm.nameCustomLayer)">Tambah!</button>
+                    </div>
+                </div>
+                {{vm.markers | filter: vm.selectedLayer.label}}
+                <!-- {{vm.defaults.overlays}} -->
             </div>
         </div>
+       
         <table class="table table-condensed">
             <tr ng-if="vm.markers.length !== 0">
                 <th>No</th>
@@ -34,11 +42,11 @@
                 <th>Info</th>
                 <th></th>
             </tr>
-            <tr ng-repeat="marker in vm.markers" id="{{marker.id}}">
+            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.label}" id="{{marker.id}}">
                 <td>{{$index+1}}.</td>
                 <td>{{marker.id}}</td>
-                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lat"></td>
-                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lng"></td>
+                <td>{{marker.lat}}</td>
+                <td>{{marker.lng}}</td>
                 <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.message"></td>
                 <td><button class="btn btn-danger btn-xs" ng-click="vm.removeMarker(marker)"><i class="glyphicon glyphicon-trash"></i></button></td>
             </tr>
