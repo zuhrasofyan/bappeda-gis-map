@@ -139,14 +139,6 @@ function MapLayerService() {
         showOnSelector: true
       }
     },
-    dua: {
-      name: 'DUA',
-      type: 'group',
-      visible: true,
-      layerParams: {
-        showOnSelector: true
-      }
-    },
     lokasi: {
       name: 'Lokasi Utama',
       type: 'wms',

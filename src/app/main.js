@@ -6,12 +6,75 @@ angular
     controllerAs: 'vm'
   });
 
-function mainController($scope, leafletData, $timeout, MapLayerService) {
+function mainController($scope, leafletData, $timeout, MapLayerService, UserService) {
   var vm = this;
-  vm.hello = 'Hello hai hai';
   vm.events = {};
- 
-  vm.selectedLayer = 'satu';
+
+  vm.listLayer = [
+    {
+      id: 0,
+      label: 'draw'
+    },
+    {
+      id: 1,
+      label: 'satu'
+    }
+  ];
+
+  // get user
+  function getUser() {
+    var a = UserService.getCurrentUser();
+    return a;
+  }
+  vm.user = getUser();
+
+  vm.defaults = {};
+  vm.defaults.baselayers = angular.copy(MapLayerService.baselayers);
+  vm.defaults.overlays = angular.copy(MapLayerService.overlays);
+  vm.center = {
+    lat: 5.551,
+    lng: 95.322,
+    zoom: 15
+  };
+
+  // Add new custom layer where user can place markers
+  vm.nameCustomLayer = '';
+  vm.showAddLayerButton = false;
+  vm.buttonShowAddLayer = function () {
+    vm.showAddLayerButton = true;
+    vm.nameCustomLayer = '';
+  };
+  vm.addCustomLayer = function (layerName) {
+    var addId = vm.listLayer.length+1;
+    vm.listLayer.push({
+      id: addId,
+      label: layerName
+    });
+    // cannot since its overlay not updated by angular digest
+      name: layerName,
+      type: 'group',
+      visible: true,
+      layerParams: {
+        showOnSelector: true
+      }
+    }
+    vm.defaults.overlays[addId] = newCustomLayer;
+
+    // vm.defaults.overlays.push(
+    //   addId: {
+    //     name: layerName,
+    //     type: 'group',
+    //     visible: true,
+    //     layerParams: {
+    //       showOnSelector: true
+    //     }
+    //   }
+    // );
+    vm.showAddLayerButton = false;
+  };
+
+  // initialize the first selected layer is the first custom layer
+  vm.selectedLayer = angular.copy(vm.listLayer[1]);
 
   vm.isDrawVisible = false;
 
@@ -34,15 +97,6 @@ function mainController($scope, leafletData, $timeout, MapLayerService) {
   function openAlert() {
     vm.close = false;
   }
-
-  vm.defaults = {};
-  vm.defaults.baselayers = angular.copy(MapLayerService.baselayers);
-  vm.defaults.overlays = angular.copy(MapLayerService.overlays);
-  vm.center = {
-    lat: 5.551,
-    lng: 95.322,
-    zoom: 15
-  };
 
   leafletData.getMap().then(function (map) {
     leafletData.getLayers().then(function (baselayers) {
@@ -80,10 +134,10 @@ function mainController($scope, leafletData, $timeout, MapLayerService) {
     });
   };
 
-  vm.toggleDraw = function (layerName) {
+  vm.toggleDraw = function (layer) {
     openAlert();
-    vm.selectedLayer = layerName;
-    if (vm.selectedLayer === 'draw') {
+    //vm.selectedLayer = layerName;
+    if (vm.selectedLayer.label === 'draw') {
       vm.defaults.overlays.draw.visible = true;
       if (vm.isDrawVisible === true) {
         vm.isDrawVisible = false;
@@ -104,8 +158,8 @@ function mainController($scope, leafletData, $timeout, MapLayerService) {
   // if click on map, add marker by pushing it to vm.markers array
   $scope.$on('leafletDirectiveMap.click', function (event, args) {
     // console.log(args);
-    if (vm.selectedLayer !== 'draw') {
-      var layer = vm.selectedLayer;
+    if (vm.selectedLayer.label !== 'draw') {
+      var layer = vm.selectedLayer.label;
       var leafEvent = args.leafletEvent;
       var lat = leafEvent.latlng.lat;
       var lng = leafEvent.latlng.lng;
@@ -119,7 +173,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService) {
         draggable: true,
         focus: true,
         id: id,
-        info: info
+        userId: vm.user.id
       });
     }
   });
