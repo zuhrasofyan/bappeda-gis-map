@@ -21,6 +21,13 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
     }
   ];
 
+  // check to enable add/edit marker
+  vm.markerBool = false;
+  // vm.showButtorAddMarker = true;
+  vm.addLayer = function () {
+    vm.markerBool = true;
+  }
+
   // get user
   function getUser() {
     var a = UserService.getCurrentUser();
@@ -45,7 +52,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
     vm.nameCustomLayer = '';
   };
   vm.addCustomLayer = function (layerName) {
-    var addId = vm.listLayer.length+1;
+    var addId = vm.listLayer.length + 1;
     vm.listLayer.push({
       id: addId,
       label: layerName
@@ -131,11 +138,19 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   }
   vm.removeMarker = function (marker) {
     vm.markers = vm.markers.filter(function (el) {
-      return marker.id !== el.id;
+      return marker.pointId !== el.pointId;
     });
   };
 
+  vm.saveMarker = function (marker) {
+    console.log(marker);
+    vm.markers.find(function(v){
+      return v.pointId === marker.pointId;
+    }).draggable = false;
+  };
+
   vm.toggleDraw = function (layer) {
+    // TODO: when toggle, save preference (last opened layer as default to show to server)
     openAlert();
     //vm.selectedLayer = layerName;
     if (vm.selectedLayer.label === 'draw') {
@@ -156,32 +171,43 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
     }
   };
 
-  // if click on map, add marker by pushing it to vm.markers array
-  $scope.$on('leafletDirectiveMap.click', function (event, args) {
-    // console.log(args);
-    if (vm.selectedLayer.label !== 'draw') {
-      var layer = vm.selectedLayer.label;
-      var leafEvent = args.leafletEvent;
-      var lat = leafEvent.latlng.lat;
-      var lng = leafEvent.latlng.lng;
-      var id = makeid();
-      var info = 'marker baru';
-      vm.markers.push({
-        layer: layer,
-        lat: lat,
-        lng: lng,
-        message: info,
-        draggable: true,
-        focus: true,
-        id: id,
-        userId: vm.user.id
-      });
-    }
-  });
+  vm.addMarker = function () {
+    vm.markerBool = true;
+    // if click on map, add marker by pushing it to vm.markers array
+    $scope.$on('leafletDirectiveMap.click', function (event, args) {
+      // console.log(args);
+      if (vm.selectedLayer.label !== 'draw') {
+        if (vm.markerBool === true) {
+          var layer = vm.selectedLayer.label;
+          var leafEvent = args.leafletEvent;
+          var lat = leafEvent.latlng.lat;
+          var lng = leafEvent.latlng.lng;
+          var pointId = makeid();
+          var info = 'marker baru';
+          vm.markers.push({
+            layer: layer,
+            lat: lat,
+            lng: lng,
+            message: info,
+            draggable: true,
+            focus: true,
+            pointId: pointId,
+            userId: vm.user.id
+          });
+          vm.markerBool = false;
+        }
+      } else {
+        if (vm.markerBool === true) {
+          alert('Anda berada pada layer draw. Ganti layer agar bisa memasukkan titik koordinat!');
+        }
+        vm.markerBool = false;
+      }
+    });
+  };
 
   $scope.$on('leafletDirectiveMarker.click', function (event, args) {
     vm.thisClass = false;
-    blinkClick(args.model.id);
+    blinkClick(args.model.pointId);
   });
 
   // if doubleclick on marker, remove marker by filtering it based on marker lattitude
@@ -189,7 +215,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
     vm.markers = vm.markers.filter(function (el) {
       // console.log(el.info);
       // console.log(args.model.info);
-      return args.model.id !== el.id;
+      return args.model.pointId !== el.pointId;
     });
   });
 

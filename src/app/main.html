@@ -30,30 +30,34 @@
                         <button class="btn btn-primary" ng-click="vm.addCustomLayer(vm.nameCustomLayer)">Tambah!</button>
                     </div>
                 </div> -->
-                <!-- {{vm.markers | filter: vm.selectedLayer.label}} -->
+                {{vm.markerBool}} <br>
+                {{vm.markers | filter: vm.selectedLayer.label}}
                 <!-- {{vm.defaults.overlays}} -->
-                
+
             </div>
         </div>
-       
+        
+        <button class="btn btn-primary" ng-if="!vm.markerBool" ng-click="vm.addMarker()">Tambah poin koordinat</button>
+
         <table class="table table-condensed">
             <tr ng-if="vm.markers.length !== 0">
                 <th>No</th>
-                <th>index</th>
                 <th>Lat</th>
                 <th>Lon</th>
                 <th>Info</th>
                 <th></th>
             </tr>
-            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.label}" id="{{marker.id}}">
+            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.label}" id="{{marker.pointId}}">
                 <td>{{$index+1}}.</td>
-                <td>{{marker.id}}</td>
                 <td>{{marker.lat}}</td>
                 <td>{{marker.lng}}</td>
                 <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.message"></td>
-                <td><button class="btn btn-danger btn-xs" ng-click="vm.removeMarker(marker)"><i class="glyphicon glyphicon-trash"></i></button></td>
+                <td>
+                    <button class="btn btn-primary btn-xs" ng-click="vm.saveMarker(marker)"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+                    <button class="btn btn-danger btn-xs" ng-click="vm.removeMarker(marker)"><i class="glyphicon glyphicon-trash"></i></button>
+                </td>
             </tr>
         </table>
-        <button class="btn btn-danger" ng-click="vm.removeMarkers()" ng-if="vm.markers.length !== 0"><i class="glyphicon glyphicon-trash"></i> Delete Semua</button>
+        <!-- <button class="btn btn-danger" ng-click="vm.removeMarkers()" ng-if="vm.markers.length !== 0"><i class="glyphicon glyphicon-trash"></i> Delete Semua</button> -->
     </div>
 </div>
