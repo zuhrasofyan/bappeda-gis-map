@@ -6,8 +6,10 @@ angular
     controllerAs: 'vm'
   });
 
-function mainController($scope, leafletData, $timeout, MapLayerService, UserService, lodash, LayerService, MarkerService) {
+function mainController($rootScope, $scope, leafletData, $timeout, MapLayerService, UserService, lodash, LayerService, MarkerService) {
   var vm = this;
+
+  vm.isAuthenticated = $rootScope.isAuthenticated;
 
   // get user
   function getUser() {
@@ -170,7 +172,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   vm.removeMarker = function (marker) {
 
     MarkerService.deleteMarker(marker);
-    
+
     // return vm.marker list, minus deleted marker
     vm.markers = vm.markers.filter(function (el) {
       return marker.pointId !== el.pointId;
