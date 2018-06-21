@@ -6,7 +6,7 @@ angular
     controllerAs: 'vm'
   });
 
-function mainController($scope, leafletData, $timeout, MapLayerService, UserService, lodash, LayerService) {
+function mainController($scope, leafletData, $timeout, MapLayerService, UserService, lodash, LayerService, MarkerService) {
   var vm = this;
 
   // get user
@@ -35,6 +35,15 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   var basicOverlays = angular.copy(MapLayerService.overlays);
   vm.defaults.overlays = basicOverlays;
 
+  vm.controls = {
+    draw: {
+      draw: {
+        marker: false
+      }
+    }
+  };
+
+  // Get layer list from server and push it to appropiate places in this page
   LayerService.getLayerList(vm.user.id).then(function(d) {
     var temp = d.data;
     var tempLength = temp.length;
@@ -64,6 +73,18 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
     }
     // initialize the first selected layer is the first custom layer
     vm.selectedLayer = angular.copy(vm.listLayer[1]);
+    
+    // after layers all placed, then define markers that will fill the layer(s)
+    vm.markers = [];
+    
+    // Get marker list from server and push it to appropiate places in this page
+    MarkerService.getMarkerList(vm.user.id).then(function(d){
+      var temp = d.data;
+      var tempLength = temp.length;
+      for (var i = 0; i < tempLength; i++) {
+        vm.markers.push(temp[i]);
+      }
+    });
 
   });
 
@@ -74,7 +95,6 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   vm.addLayer = function () {
     vm.markerBool = true;
   };
-
 
   // Add new custom layer where user can place markers (in progress)
   vm.nameCustomLayer = '';
@@ -105,15 +125,6 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   };
 
   vm.isDrawVisible = false;
-
-  vm.markers = [];
-  vm.controls = {
-    draw: {
-      draw: {
-        marker: false
-      }
-    }
-  };
 
   vm.close = false;
 
@@ -157,16 +168,30 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   }
 
   vm.removeMarker = function (marker) {
+
+    MarkerService.deleteMarker(marker);
+    
+    // return vm.marker list, minus deleted marker
     vm.markers = vm.markers.filter(function (el) {
       return marker.pointId !== el.pointId;
     });
+
   };
 
   vm.saveMarker = function (marker) {
-    // console.log(marker);
+    console.log(marker);
+    MarkerService.submitMarker(marker);
+    // after save, user cannot edit the marker anymore by making draggable false
     vm.markers.find(function (v) {
       return v.pointId === marker.pointId;
     }).draggable = false;
+
+  };
+
+  vm.editMarker = function(marker) {
+    vm.markers.find(function (v) {
+      return v.pointId === marker.pointId;
+    }).draggable = true;
   };
 
   vm.toggleDraw = function (layer) {
@@ -230,11 +255,12 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   });
 
   // if doubleclick on marker, remove marker by filtering it based on marker lattitude
-  $scope.$on('leafletDirectiveMarker.dblclick', function (event, args) {
-    vm.markers = vm.markers.filter(function (el) {
-      return args.model.pointId !== el.pointId;
-    });
-  });
+  // Currently disabled to avoid user accidentally double click marker
+  // $scope.$on('leafletDirectiveMarker.dblclick', function (event, args) {
+  //   vm.markers = vm.markers.filter(function (el) {
+  //     return args.model.pointId !== el.pointId;
+  //   });
+  // });
 
   vm.removeMarkers = function () {
     vm.markers = [];
