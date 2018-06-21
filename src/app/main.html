@@ -17,6 +17,8 @@
               <h3 class="panel-title">Pilih Layer yang akan diaktifkan</h3>
             </div>
             <div class="panel-body">
+                <!-- {{vm.temp}} <br>
+                {{vm.listLayer}} -->
                 <select class="form-control" ng-options="layer as layer.label for layer in vm.listLayer track by layer.id" ng-model="vm.selectedLayer" ng-change="vm.toggleDraw(vm.selectedLayer)"></select>
                 <div>
                     <h5>layer yang aktif saat ini: {{vm.selectedLayer.label}}</h5>
@@ -30,8 +32,8 @@
                         <button class="btn btn-primary" ng-click="vm.addCustomLayer(vm.nameCustomLayer)">Tambah!</button>
                     </div>
                 </div> -->
-                {{vm.markerBool}} <br>
-                {{vm.markers | filter: vm.selectedLayer.label}}
+                <!-- {{vm.markerBool}} <br>
+                {{vm.markers | filter: vm.selectedLayer.id}} -->
                 <!-- {{vm.defaults.overlays}} -->
 
             </div>
@@ -47,7 +49,7 @@
                 <th>Info</th>
                 <th></th>
             </tr>
-            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.label}" id="{{marker.pointId}}">
+            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.id.toString()}" id="{{marker.pointId}}">
                 <td>{{$index+1}}.</td>
                 <td>{{marker.lat}}</td>
                 <td>{{marker.lng}}</td>

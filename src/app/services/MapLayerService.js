@@ -131,14 +131,6 @@ function MapLayerService() {
         showOnSelector: true
       }
     },
-    satu: {
-      name: 'SATU',
-      type: 'group',
-      visible: true,
-      layerParams: {
-        showOnSelector: true
-      }
-    },
     lokasi: {
       name: 'Lokasi Utama',
       type: 'wms',

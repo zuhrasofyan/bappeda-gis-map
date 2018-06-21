@@ -6,27 +6,8 @@ angular
     controllerAs: 'vm'
   });
 
-function mainController($scope, leafletData, $timeout, MapLayerService, UserService) {
+function mainController($scope, leafletData, $timeout, MapLayerService, UserService, lodash, LayerService) {
   var vm = this;
-  vm.events = {};
-
-  vm.listLayer = [
-    {
-      id: 0,
-      label: 'draw'
-    },
-    {
-      id: 1,
-      label: 'satu'
-    }
-  ];
-
-  // check to enable add/edit marker
-  vm.markerBool = false;
-  // vm.showButtorAddMarker = true;
-  vm.addLayer = function () {
-    vm.markerBool = true;
-  }
 
   // get user
   function getUser() {
@@ -35,22 +16,74 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   }
   vm.user = getUser();
 
-  vm.defaults = {};
-  vm.defaults.baselayers = angular.copy(MapLayerService.baselayers);
-  vm.defaults.overlays = angular.copy(MapLayerService.overlays);
+  // default layer
+  vm.listLayer = [
+    {
+      id: 0,
+      label: 'draw'
+    }
+  ];
+
   vm.center = {
     lat: 5.551,
     lng: 95.322,
     zoom: 15
   };
 
-  // Add new custom layer where user can place markers
+  vm.defaults = {};
+  vm.defaults.baselayers = angular.copy(MapLayerService.baselayers);
+  var basicOverlays = angular.copy(MapLayerService.overlays);
+  vm.defaults.overlays = basicOverlays;
+
+  LayerService.getLayerList(vm.user.id).then(function(d) {
+    var temp = d.data;
+    var tempLength = temp.length;
+    for (var i = 0; i < tempLength; i++) {
+      vm.listLayer.push({
+        id: temp[i].id,
+        label: temp[i].name
+      });
+
+      var thisLayerId = temp[i].id.toString();
+
+      // key in object cannot directly use from var. so, we should insert it into its own object called x, then merge it with overlayObj
+      // to make a correctly structured object that later can be assigned using lodash to vm.defaults.overlays
+      var x = {};
+      var key = thisLayerId;
+      var overlayObj = {
+        layerId: temp[i].id,
+        name: temp[i].name,
+        type: 'group',
+        visible: true,
+        layerParams: {
+          showOnSelector: true
+        }            
+      };
+      x[key] = overlayObj;
+      vm.defaults.overlays = lodash.assign({}, x, vm.defaults.overlays);
+    }
+    // initialize the first selected layer is the first custom layer
+    vm.selectedLayer = angular.copy(vm.listLayer[1]);
+
+  });
+
+  vm.events = {};
+
+  // check to enable add/edit marker
+  vm.markerBool = false;
+  vm.addLayer = function () {
+    vm.markerBool = true;
+  };
+
+
+  // Add new custom layer where user can place markers (in progress)
   vm.nameCustomLayer = '';
   vm.showAddLayerButton = false;
   vm.buttonShowAddLayer = function () {
     vm.showAddLayerButton = true;
     vm.nameCustomLayer = '';
   };
+
   vm.addCustomLayer = function (layerName) {
     var addId = vm.listLayer.length + 1;
     vm.listLayer.push({
@@ -65,24 +98,11 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
       layerParams: {
         showOnSelector: true
       }
-    }
+    };
     vm.defaults.overlays[addId] = newCustomLayer;
 
-    // vm.defaults.overlays.push(
-    //   addId: {
-    //     name: layerName,
-    //     type: 'group',
-    //     visible: true,
-    //     layerParams: {
-    //       showOnSelector: true
-    //     }
-    //   }
-    // );
     vm.showAddLayerButton = false;
   };
-
-  // initialize the first selected layer is the first custom layer
-  vm.selectedLayer = angular.copy(vm.listLayer[1]);
 
   vm.isDrawVisible = false;
 
@@ -92,15 +112,14 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
       draw: {
         marker: false
       }
-    },
+    }
   };
 
-
   vm.close = false;
-  
+
   vm.closeAlert = function () {
     vm.close = true;
-  }
+  };
 
   function openAlert() {
     vm.close = false;
@@ -112,14 +131,14 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
       map.on('draw:created', function (e) {
         var layer = e.layer;
         drawnItems.addLayer(layer);
-        console.log(JSON.stringify(layer.toGeoJSON()));
+        // console.log(JSON.stringify(layer.toGeoJSON()));
       });
     });
   });
 
   // Use this function to operate to give a blinking effect color in the responding div, based on selected marker.
   var blinkClick = function (idFromMarker) {
-    var getId = '#'+idFromMarker;
+    var getId = '#' + idFromMarker;
     angular.element(document.querySelector(getId)).addClass('blinking');
     $timeout(function () {
       angular.element(document.querySelector(getId)).removeClass('blinking');
@@ -136,6 +155,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
     }
     return text;
   }
+
   vm.removeMarker = function (marker) {
     vm.markers = vm.markers.filter(function (el) {
       return marker.pointId !== el.pointId;
@@ -143,8 +163,8 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   };
 
   vm.saveMarker = function (marker) {
-    console.log(marker);
-    vm.markers.find(function(v){
+    // console.log(marker);
+    vm.markers.find(function (v) {
       return v.pointId === marker.pointId;
     }).draggable = false;
   };
@@ -152,16 +172,13 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   vm.toggleDraw = function (layer) {
     // TODO: when toggle, save preference (last opened layer as default to show to server)
     openAlert();
-    //vm.selectedLayer = layerName;
     if (vm.selectedLayer.label === 'draw') {
       vm.defaults.overlays.draw.visible = true;
       if (vm.isDrawVisible === true) {
         vm.isDrawVisible = false;
-        // angular.element(document.querySelector('.leaflet-draw-section')).addClass('my-class');
         angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'hidden');
       } else {
         vm.isDrawVisible = true;
-        // angular.element(document.querySelector('.leaflet-draw-section')).removeClass('my-class');
         angular.element(document.querySelector('.leaflet-draw-section')).css('visibility', 'visible');
       }
     } else {
@@ -178,13 +195,15 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
       // console.log(args);
       if (vm.selectedLayer.label !== 'draw') {
         if (vm.markerBool === true) {
-          var layer = vm.selectedLayer.label;
+          var layer = vm.selectedLayer.id.toString();
           var leafEvent = args.leafletEvent;
           var lat = leafEvent.latlng.lat;
           var lng = leafEvent.latlng.lng;
           var pointId = makeid();
           var info = 'marker baru';
           vm.markers.push({
+            // here in markers, layer must be string. thats why instead using layer 'name' defined (that can be renamed eventually,)
+            // we use layerId that converted to string. 
             layer: layer,
             lat: lat,
             lng: lng,
@@ -198,7 +217,7 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
         }
       } else {
         if (vm.markerBool === true) {
-          alert('Anda berada pada layer draw. Ganti layer agar bisa memasukkan titik koordinat!');
+          alert ('Anda berada pada layer draw. Ganti layer agar bisa memasukkan titik koordinat!');
         }
         vm.markerBool = false;
       }
@@ -213,8 +232,6 @@ function mainController($scope, leafletData, $timeout, MapLayerService, UserServ
   // if doubleclick on marker, remove marker by filtering it based on marker lattitude
   $scope.$on('leafletDirectiveMarker.dblclick', function (event, args) {
     vm.markers = vm.markers.filter(function (el) {
-      // console.log(el.info);
-      // console.log(args.model.info);
       return args.model.pointId !== el.pointId;
     });
   });
