@@ -54,8 +54,8 @@
             </tr>
             <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.id.toString()}" id="{{marker.pointId}}">
                 <td>{{$index+1}}.</td>
-                <td>{{marker.lat}}</td>
-                <td>{{marker.lng}}</td>
+                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lat" ng-disabled="!marker.draggable"></td>
+                <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lng" ng-disabled="!marker.draggable"></td>
                 <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.message" ng-disabled="!marker.draggable"></td>
                 <td>
                     <button class="btn btn-primary btn-xs" ng-click="vm.saveMarker(marker)" ng-if="marker.draggable"><i class="glyphicon glyphicon-floppy-disk"></i></button>
