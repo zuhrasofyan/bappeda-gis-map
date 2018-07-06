@@ -8,9 +8,12 @@
 				<h1>Selamat datang {{vm.user.username}}! <h1>
 				<div ng-if="vm.layerList.length > 0">
 					<p>
-						Silahkan kembali ke halaman utama untuk menggunakan aplikasi ini!
+						Silahkan kembali ke halaman utama untuk menggunakan aplikasi ini! <br>
 					</p>
-					<p><a ui-sref="main" class="btn btn-primary active" role="button" aria-pressed="true">Halaman Utama</a></p>
+					<p>
+						<a ui-sref="main" class="btn btn-primary active" role="button" aria-pressed="true">Halaman Utama</a>
+						<a ui-sref="adminDashboard" class="btn btn-primary active" role="button"  ng-if="vm.user.role === 'admin'">Halaman Admin</a>
+					</p>
 				</div>
 			</div>
 
