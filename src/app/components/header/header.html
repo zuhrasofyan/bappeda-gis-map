@@ -12,7 +12,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" uib-collapse="vm.navCollapsed">
         <ul class="nav navbar-nav">
-            <li ng-if="vm.isAuthenticated"><a ui-sref="dashboard">dashboard</a></li>
+            <li ng-if="vm.isAuthenticated"><a ui-sref="dashboard" class="btn-primary">dashboard</a></li>
+            <li><a href="http://bappeda.bandaacehkota.go.id/webgis">WEBGIS</a></li>
+            <li><a ui-sref="about">Apa itu SIGAP?</a></li>
             <!-- <li class="dropdown" uib-dropdown>
                 <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layer Utama <span class="caret"></span></a>
                 <ul class="dropdown-menu" uib-dropdown-menu>
