@@ -45,7 +45,8 @@ function dashboardController(UserService, LayerService, MarkerService, $state, $
   });
 
 
-  //show marker list of each layer
+  // show marker list of each layer
+  // based on http://brianhann.com/pass-data-to-a-ui-bootstrap-modal-without-scope/
   function bukaModal(layer, markers) {
     $uibModal.open({
       templateUrl: 'app/components/modalTableMarker/modalTableMarker.html',
