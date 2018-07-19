@@ -7,7 +7,7 @@ angular
   });
 
 
-function dashboardController(UserService, LayerService, $state) {
+function dashboardController(UserService, LayerService, MarkerService, $state, $uibModal) {
   var vm = this;
 
   function getUser() {
@@ -31,6 +31,50 @@ function dashboardController(UserService, LayerService, $state) {
     $state.reload();
   }
   vm.addNewLayer = addNewLayer;
+
+  // after layers all placed, then define markers that will fill the layer(s)
+  vm.markers = [];
+  
+  // Get marker list from server and push it to appropiate places in this page
+  MarkerService.getMarkerList(vm.user.id).then(function(d){
+    var temp = d.data;
+    var tempLength = temp.length;
+    for (var i = 0; i < tempLength; i++) {
+      vm.markers.push(temp[i]);
+    }
+  });
+
+
+  //show marker list of each layer
+  function bukaModal(layer, markers) {
+    $uibModal.open({
+      templateUrl: 'app/components/modalTableMarker/modalTableMarker.html',
+      controller: ['$uibModalInstance', 'layer', 'markers', ShowtableMarkerCtrl],
+      controllerAs: 'vm',
+      resolve: {
+        layer: function() { return layer },
+        markers: function() {return markers}
+        // people: function () { return vm.people },
+        // person: function() { return person; }
+      }
+    });
+  }
+  vm.bukaModal = bukaModal;
+
+}
+
+//Controller of component modalTableMarker
+function ShowtableMarkerCtrl($uibModalInstance, layer, markers) {
+  var vm = this;
+  
+  vm.layer = layer;
+  vm.markers = markers;
+  
+  function tutup() {
+    $uibModalInstance.close();
+  }
+  vm.tutup = tutup;
+
 }
 
 

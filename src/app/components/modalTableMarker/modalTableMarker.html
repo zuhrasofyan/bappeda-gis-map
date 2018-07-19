@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h4>Layer {{vm.layer.name}}</h4>
+</div>
+<div class="modal-body">
+    <table class="table table-condensed">
+        <tr ng-if="vm.markers.length !== 0">
+            <th>No</th>
+            <th>Lat</th>
+            <th>Lon</th>
+            <th>Info</th>
+        </tr>
+        <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.layer.id.toString()}" id="{{marker.pointId}}">
+            <td>{{$index+1}}.</td>
+            <td>{{marker.lat}}</td>
+            <td>{{marker.lng}}</td>
+            <td>{{marker.message}}</td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" ng-click="vm.tutup()">Tutup</button>
+    <!-- <button class="btn" ng-click="$close()">Cancel</button> -->
+</div>

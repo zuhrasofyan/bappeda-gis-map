@@ -1,5 +1,23 @@
 <header></header>
 
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <ul>
+            <li ng-repeat="item in vm.items">
+                <a href="#" ng-click="$event.preventDefault(); vm.selected.item = item">{{ item }}</a>
+            </li>
+        </ul>
+        Selected: <b>{{ vm.selected.item }}</b>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</script>
+
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
@@ -38,12 +56,17 @@
 			  		<tr>
 			  			<th>No</th>
 			  			<th>Nama Layer</th>
+			  			<th></th>
 			  		</tr>
 			  		<tr ng-repeat="layer in vm.layerList">
 			  			<td>{{$index+1}}.</td>
 			  			<td>{{layer.name}}</td>
+			  			<td><button type="button" class="btn btn-sm btn-primary" ng-click="vm.bukaModal(layer, vm.markers)">Lihat Tabel koordinatnya</button></td>
 			  		</tr>
 			  	</table>
+
+				
+			  	
 			  </div>
 			</div>
 		</div>
