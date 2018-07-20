@@ -63,8 +63,8 @@ function dashboardController(UserService, LayerService, MarkerService, $state, $
   vm.bukaModal = bukaModal;
 
 }
-
-//Controller of component modalTableMarker
+// Outside dashboard component
+// Controller of component modalTableMarker
 function ShowtableMarkerCtrl($uibModalInstance, layer, markers) {
   var vm = this;
   
@@ -75,6 +75,14 @@ function ShowtableMarkerCtrl($uibModalInstance, layer, markers) {
     $uibModalInstance.close();
   }
   vm.tutup = tutup;
+
+  function exportMarkerList() {
+    var excelName = vm.layer.name + '.xlsx';
+    // import and download the html table of a marker list 
+    var wb = XLSX.utils.table_to_book(document.getElementById('tabel-marker'));
+    XLSX.writeFile(wb, excelName);
+  }
+  vm.exportMarkerList = exportMarkerList;
 
 }
 
