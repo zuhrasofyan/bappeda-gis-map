@@ -1,23 +1,5 @@
 <header></header>
 
-<script type="text/ng-template" id="myModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
-    </div>
-    <div class="modal-body" id="modal-body">
-        <ul>
-            <li ng-repeat="item in vm.items">
-                <a href="#" ng-click="$event.preventDefault(); vm.selected.item = item">{{ item }}</a>
-            </li>
-        </ul>
-        Selected: <b>{{ vm.selected.item }}</b>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="vm.ok()">OK</button>
-        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
-    </div>
-</script>
-
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
@@ -36,36 +18,35 @@
 			</div>
 
 			<div class="panel panel-default" style="margin-top: 15px;">
-			  <div class="panel-body">
-			    <h3 ng-if="vm.layerList.length == 0">kelihatannya anda tidak memiliki satu layerpun. silahkan membuat sebuah layer terlebih dahulu sebelum anda ke halaman utama SIGAP!</h3>
-			    <h5 ng-if="vm.layerList.length > 0">Jika ingin, ada bisa menambahkan layer baru disini:</h5>
+				<div class="panel-body">
+					<h3 ng-if="vm.layerList.length == 0">kelihatannya anda tidak memiliki satu layerpun. silahkan membuat sebuah layer terlebih dahulu sebelum anda ke halaman utama SIGAP!</h3>
+					<h5 ng-if="vm.layerList.length > 0">Jika ingin, ada bisa menambahkan layer baru disini:</h5>
 					<form id="inputlayerform" ng-submit="vm.addNewLayer(vm.newLayer)" class="form-inline">
 						<label for="inputLayerName" class="sr-only">Nama Layer:</label>
-						 <input type="text" id="inputLayerName" class="form-control" placeholder="Nama Layer" required="" autofocus="" ng-model="vm.newLayer.name">
-						 <button class="btn btn-primary" type="submit">tambah</button>
+						<input type="text" id="inputLayerName" class="form-control" placeholder="Nama Layer" required="" autofocus="" ng-model="vm.newLayer.name">
+						<button class="btn btn-primary" type="submit">tambah</button>
 					</form>
-			  </div>
+				</div>
 			</div>
 
 			<div class="panel panel-default" style="margin-top: 15px;">
 				<div class="panel-heading">
-	        <h3 class="panel-title">List layer anda</h3>
-	      </div>
-			  <div class="panel-body">
-			  	<table class="table table-striped" id="tabel-layer">
-			  		<tr>
-			  			<th>No</th>
-			  			<th>Nama Layer</th>
-			  			<th></th>
-			  		</tr>
-			  		<tr ng-repeat="layer in vm.layerList">
-			  			<td>{{$index+1}}.</td>
-			  			<td>{{layer.name}}</td>
-			  			<td><button type="button" class="btn btn-sm btn-success" ng-click="vm.bukaModal(layer, vm.markers)">Lihat Tabel koordinatnya</button></td>
-			  		</tr>
-			  	</table>
-			  	
-			  </div>
+					<h3 class="panel-title">List layer anda</h3>
+				</div>
+				<div class="panel-body">
+					<table class="table table-striped" id="tabel-layer">
+						<tr>
+							<th>No</th>
+							<th>Nama Layer</th>
+							<th></th>
+						</tr>
+						<tr ng-repeat="layer in vm.layerList">
+							<td>{{$index+1}}.</td>
+							<td>{{layer.name}}</td>
+							<td><button type="button" class="btn btn-sm btn-success" ng-click="vm.bukaModal(layer, vm.markers)">Lihat Tabel koordinatnya</button></td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
