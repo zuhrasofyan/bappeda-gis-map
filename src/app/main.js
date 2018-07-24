@@ -82,10 +82,11 @@ function mainController($rootScope, $scope, leafletData, $timeout, MapLayerServi
     // Get marker list from server and push it to appropiate places in this page
     MarkerService.getMarkerList(vm.user.id).then(function(d){
       var temp = d.data;
-      var tempLength = temp.length;
-      for (var i = 0; i < tempLength; i++) {
-        vm.markers.push(temp[i]);
-      }
+      temp.forEach(function(element){
+        // layer name in leaflet shoud be in string. so, convert each element.layer (id) into string, before push it to markers array
+        element.layer = element.layer.toString();
+        vm.markers.push(element);
+      });
     });
 
   });
