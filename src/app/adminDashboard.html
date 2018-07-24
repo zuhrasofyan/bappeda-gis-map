@@ -2,13 +2,48 @@
 
 <div class="container">
 	
-	<div class="jumbotron" style="margin-top: 10px;">
-		<h1>Halaman Admin<h1>
-		<div>
-			<p>
-				kembali ke halaman dashboard:
-			</p>
-			<p><a ui-sref="dashboard" class="btn btn-primary active" role="button" aria-pressed="true">Dashboard</a></p>
+	<div class="row">
+		<div class="col-xs-12">
+			
+			<div class="jumbotron" style="margin-top: 10px;">
+				<h1>Halaman Admin<h1>
+				<div>
+					<p>
+						kembali ke halaman dashboard:
+					</p>
+					<p><a ui-sref="dashboard" class="btn btn-primary active" role="button" aria-pressed="true">Dashboard</a></p>
+				</div>
+			</div>
+
+			<div class="panel panel-default" style="margin-top: 15px;">
+				<div class="panel-heading">
+					<h3 class="panel-title">Daftar User</h3>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<tr ng-repeat="row in vm.thisPageUser">
+							<td>{{row.username}}</td>
+							<td>{{row.role}}</td>
+							<td>button?</td>
+						</tr>
+				    </table>
+				    <ul uib-pagination total-items="vm.totalUser" ng-model="currentPage" items-per-page="vm.userPerPage"></ul>
+				    <!-- <uib-pagination total-items="vm.totalUser" ng-model="vm.currentPage" ng-change="vm.pageChanged()" items-per-page="vm.userPerPage"></uib-pagination> -->
+					<!-- <table class="table table-striped" id="tabel-layer">
+						<tr>
+							<th>No</th>
+							<th>Nama Layer</th>
+							<th></th>
+						</tr>
+						<tr ng-repeat="layer in vm.layerList">
+							<td>{{$index+1}}.</td>
+							<td>{{layer.name}}</td>
+							<td><button type="button" class="btn btn-sm btn-success" ng-click="vm.bukaModal(layer, vm.markers)">Lihat Tabel koordinatnya</button></td>
+						</tr>
+					</table> -->
+				</div>
+			</div>
+
 		</div>
 	</div>
 
