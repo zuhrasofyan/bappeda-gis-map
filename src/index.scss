@@ -81,3 +81,25 @@ $icon-font-path: '../fonts/' !default;
   padding: 15px;
   margin: 0 auto;
 }
+
+// Main page layout
+.main {
+  .col-xs-12 {
+    padding-right: 0px;
+  }
+  .col-xs-7 {
+    padding-right: 0px;
+  }
+}
+
+.container-box {
+  position: relative;
+}
+.button-abs {
+  position: absolute;
+  top: 100px;
+  right: 0px;
+  z-index: 5000;
+}
+
+

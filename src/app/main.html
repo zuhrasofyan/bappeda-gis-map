@@ -1,21 +1,26 @@
 <header></header>
-<div class="row" style="margin-right: 0px;">
-    <div class="col-xs-7">
-        <div uib-alert class="alert-warning" style="max-width: 400px; position: absolute; right: 50%; z-index: 2000;" dismiss-on-timeout="2000" close="vm.closeAlert()" ng-if="!vm.close">layer anda yang aktif saat ini: {{vm.selectedLayer.label}}</div>
-        <leaflet layers="vm.defaults" lf-center="vm.center" markers="vm.markers" controls="vm.controls" event-broadcast="vm.events" height="92vh"></leaflet>
+
+<div class="row main" style="margin-right: 0px;">
+    <div ng-class="vm.colChange" class="container-box">
+      <button class="btn btn-success button-abs" ng-click="vm.toggleSideBar()">
+        <i class="glyphicon glyphicon-chevron-left" ng-show="!vm.isShowSidebar"></i>
+        <i class="glyphicon glyphicon-chevron-right" ng-show="vm.isShowSidebar"></i>
+      </button>
+      <div uib-alert class="alert-warning" style="max-width: 400px; position: absolute; right: 50%; z-index: 2000;" dismiss-on-timeout="2000" close="vm.closeAlert()" ng-if="!vm.close">layer anda yang aktif saat ini: {{vm.selectedLayer.label}}</div>
+      <leaflet layers="vm.defaults" lf-center="vm.center" markers="vm.markers" controls="vm.controls" event-broadcast="vm.events" height="92vh"></leaflet>
     </div>
-    <div class="col-xs-5" ng-if="!vm.isAuthenticated">
+    <div class="col-xs-5" ng-if="!vm.isAuthenticated" ng-show="vm.isShowSidebar">
         <h3>Silahkan login untuk mengakses fungsi-fungsi yang ada dalam aplikasi SIGAP!</h3>
     </div>
     <div class="col-xs-5" style="overflow-y: auto; height: 92vh; font-size: 12px;" ng-if="vm.isAuthenticated">
         <!-- <div>
             pilih layer: {{vm.selectedLayer}} <br> -->
             <!-- {{vm.controls}}
-            
+
             <button class="btn btn-success" ng-click="vm.toggleDraw('clear')">clear</button>
-            {{vm.markers}} 
+            {{vm.markers}}
         </div> -->
-        <div class="panel panel-default" style="margin-top: 5px;">  
+        <div class="panel panel-default" style="margin-top: 5px;">
             <div class="panel-heading">
               <h3 class="panel-title">Pilih Layer yang akan diaktifkan</h3>
             </div>
@@ -41,7 +46,7 @@
 
             </div>
         </div>
-        
+
         <button class="btn btn-primary" ng-if="!vm.markerBool" ng-click="vm.addMarker()">Tambah poin koordinat</button>
 
         <table class="table table-condensed">

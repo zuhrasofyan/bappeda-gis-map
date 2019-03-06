@@ -68,17 +68,17 @@ function mainController($rootScope, $scope, leafletData, $timeout, MapLayerServi
         visible: true,
         layerParams: {
           showOnSelector: true
-        }            
+        }
       };
       x[key] = overlayObj;
       vm.defaults.overlays = lodash.assign({}, x, vm.defaults.overlays);
     }
     // initialize the first selected layer is the first custom layer
     vm.selectedLayer = angular.copy(vm.listLayer[1]);
-    
+
     // after layers all placed, then define markers that will fill the layer(s)
     vm.markers = [];
-    
+
     // Get marker list from server and push it to appropiate places in this page
     MarkerService.getMarkerList(vm.user.id).then(function(d){
       var temp = d.data;
@@ -231,7 +231,7 @@ function mainController($rootScope, $scope, leafletData, $timeout, MapLayerServi
           var info = 'marker baru';
           vm.markers.push({
             // here in markers, layer must be string. thats why instead using layer 'name' defined (that can be renamed eventually,)
-            // we use layerId that converted to string. 
+            // we use layerId that converted to string.
             layer: layer,
             lat: lat,
             lng: lng,
@@ -273,6 +273,20 @@ function mainController($rootScope, $scope, leafletData, $timeout, MapLayerServi
     isCustomHeaderOpen: false,
     isFirstOpen: true,
     isFirstDisabled: false
+  };
+
+  // Main toggle sidebar
+  vm.isShowSidebar = true;
+  vm.colChange = 'col-xs-7';
+
+  vm.toggleSideBar = function () {
+    if (vm.colChange === 'col-xs-7') {
+      vm.colChange = 'col-xs-12';
+      vm.isShowSidebar = false;
+    } else {
+      vm.colChange = 'col-xs-7';
+      vm.isShowSidebar = true;
+    }
   };
 
   // need to call scope digest to make sure all elements updated
