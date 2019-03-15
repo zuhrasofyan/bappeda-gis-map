@@ -6,13 +6,14 @@
 
 			<div class="jumbotron" style="margin-top: 10px;">
 				<h1>Selamat datang {{vm.user.username}}! <h1>
-				<div ng-if="vm.layerList.length > 0">
-					<p>
-						Silahkan kembali ke halaman utama untuk menggunakan aplikasi ini! <br>
+				<div>
+					<p ng-if="vm.layerList.length > 0">
+						Silahkan kembali ke halaman utama (peta) untuk menggunakan aplikasi ini! <br>
 					</p>
 					<p>
-						<a ui-sref="main" class="btn btn-primary active" role="button" aria-pressed="true">Halaman Utama</a>
-						<a ui-sref="adminDashboard" class="btn btn-primary active" role="button"  ng-if="vm.user.role === 'admin'">Halaman Admin</a>
+						<a ui-sref="main" class="btn btn-primary" role="button" aria-pressed="true" ng-if="vm.layerList.length > 0"1><i class="glyphicon glyphicon-map-marker"></i> Halaman Peta</a>
+						<a ui-sref="adminDashboard" class="btn btn-info" role="button" ng-if="vm.user.role === 'admin'"><i class="glyphicon glyphicon-wrench"></i> Halaman Admin</a>
+            <a ui-sref="userDashboard" class="btn btn-success" role="button"><i class="glyphicon glyphicon-cog"></i> User Setting</a>
 					</p>
 				</div>
 			</div>

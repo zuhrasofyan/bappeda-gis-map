@@ -28,13 +28,13 @@ function dashboardController(UserService, LayerService, MarkerService, $state, $
     LayerService.getLayerList(vm.user.id).then(function(d) {
       vm.layerList = d.data;
     });
-    $state.reload();
+    $state.go('dashboard');
   }
   vm.addNewLayer = addNewLayer;
 
   // after layers all placed, then define markers that will fill the layer(s)
   vm.markers = [];
-  
+
   // Get marker list from server and push it to appropiate places in this page
   MarkerService.getMarkerList(vm.user.id).then(function(d){
     var temp = d.data;
@@ -67,10 +67,10 @@ function dashboardController(UserService, LayerService, MarkerService, $state, $
 // Controller of component modalTableMarker
 function ShowtableMarkerCtrl($uibModalInstance, layer, markers) {
   var vm = this;
-  
+
   vm.layer = layer;
   vm.markers = markers;
-  
+
   function tutup() {
     $uibModalInstance.close();
   }
@@ -78,7 +78,7 @@ function ShowtableMarkerCtrl($uibModalInstance, layer, markers) {
 
   function exportMarkerList() {
     var excelName = vm.layer.name + '.xlsx';
-    // import and download the html table of a marker list 
+    // import and download the html table of a marker list
     var wb = XLSX.utils.table_to_book(document.getElementById('tabel-marker'));
     XLSX.writeFile(wb, excelName);
   }
