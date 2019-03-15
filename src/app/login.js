@@ -7,20 +7,19 @@ angular
   });
 
 function loginController(store, AuthService) {
-	var vm = this;
-	vm.namaApp = 'SIGAP';
+  var vm = this;
+  vm.namaApp = 'SIGAP';
 
-	vm.formLogin = {};
+  vm.formLogin = {};
 
-	vm.myToken = '';
+  vm.myToken = '';
 
-	function clickLogin(data) {
-	  AuthService.submitLogin(data);
-	  if (store.get('token')) {
-	    vm.myToken = store.get('token');
-	  }
-	  
-	}
-	vm.clickLogin = clickLogin;
+  function clickLogin(data) {
+    AuthService.submitLogin(data);
+    if (store.get('token')) {
+      vm.myToken = store.get('token');
+    }
+  }
+  vm.clickLogin = clickLogin;
 }
 
