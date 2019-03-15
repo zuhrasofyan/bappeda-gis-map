@@ -16,7 +16,7 @@ angular
         } else {
           alert('Terjadi kesalahan pada server.');
         }
-      })
+      });
     }
 
     function submitLogin(loginData) {
@@ -44,13 +44,13 @@ angular
             alert(result.data.message);
           } else {
             alert(result.data.message);
-          }         
+          }
         // TODO: else check if bad credential (result.status !== 200) return, show notification
         // else {}
         }
-      })
-    };
-    
+      });
+    }
+
     function logout() {
       store.remove('user');
       store.remove('token');
@@ -59,9 +59,27 @@ angular
       $state.go('login');
     }
 
+    function submitChangePassword(userData) {
+      // console.log(APIURL + 'change-password/' + userData.id);
+      $http.patch(APIURL + 'user/change-password/' + userData.id, {
+        newPassword: userData.newPassword
+      }).then(function(result){
+        if (result.status !== 200) {
+          alert(result.data);
+        } else if (result.status === 200) {
+          alert('Password berhasil diubah! \n Silahkan login dengan password baru anda!');
+          logout();
+          // $state.go('login')
+        } else {
+          alert('Terjadi kesalahan pada server.');
+        }
+      });
+    }
+
     // register the functions
     vm.submitRegister = submitRegister;
     vm.submitLogin = submitLogin;
     vm.logout = logout;
+    vm.submitChangePassword = submitChangePassword;
 
   })
