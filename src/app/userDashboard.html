@@ -1,0 +1,27 @@
+<header></header>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+
+      <div class="panel panel-default" style="margin-top: 15px;">
+        <div class="panel-body">
+          <h3>User Setting</h3>
+          <h5 >Ganti Password</h5>
+          <form id="changepasswordform" name="changepasswordform" ng-submit="vm.clickChangePassword(vm.formChangePassword)" class="col-xs-12 col-md-6">
+            <div class="form-group">
+              <label for="inputNewPassword">Password baru anda:</label>
+              <input type="text" id="inputNewPassword" name="newpassword" class="form-control" placeholder="Password Baru" required="" autofocus="" ng-model="vm.formChangePassword.newPassword" ng-minlength="6">
+              <span ng-if="!changepasswordform.newpassword.$valid">minimal 6 karakter!</span>
+            </div>
+            <div class="form-group">
+              <label for="inputConfirmNewPassword">Konfirmasi password baru anda:</label>
+              <input type="text" id="inputConfirmNewPassword" class="form-control" placeholder="Konfirmasi Password Baru" required="" autofocus="" ng-model="vm.formChangePassword.confirmNewPassword">
+            </div>
+            <button class="btn btn-primary" type="submit">Ubah</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

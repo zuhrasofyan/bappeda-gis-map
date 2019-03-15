@@ -27,6 +27,13 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $ht
         loginRequired : loginRequired
       }
     })
+    .state('userDashboard', {
+      url: '/user-dashboard',
+      component: 'userDashboard',
+      resolve: {
+        loginRequired : loginRequired
+      }
+    })
     .state('adminDashboard', {
       url: '/admin-dashboard',
       component: 'adminDashboard',
