@@ -21,9 +21,6 @@ function userDashboardController(UserService, AuthService) {
     if (data.newPassword !== data.confirmNewPassword) {
       alert('Konfirmasi password baru anda salah');
     } else {
-      console.log(data);
-      // buat sebuah layanan AuthService untuk submit password change
-      // alert('OK');
       AuthService.submitChangePassword(data);
     }
   }
