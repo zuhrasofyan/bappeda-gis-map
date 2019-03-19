@@ -1,0 +1,21 @@
+<header></header>
+
+<div class="container">
+  <form id="registerform" class="form-signup" ng-submit="vm.clickRegister(vm.formRegister)">
+    <h2 class="form-signin-heading">DAFTAR SIGAP</h2>
+    <div class="form-group">
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="vm.formRegister.email">
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="" ng-model="vm.formRegister.password" ng-minlength="6">
+      <span ng-if="!registerform.password.$valid">minimal 6 karakter!</span>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword2" class="sr-only">Password</label>
+      <input type="password" id="inputPassword2" class="form-control" placeholder="Password" required="" ng-model="vm.formRegister.password2">
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+</div>

@@ -13,46 +13,50 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $ht
       component: 'main'
     })
     .state('login', {
-    	url: '/login',
-    	component: 'login'
+      url: '/login',
+      component: 'login'
     })
     .state('about', {
       url: '/about',
       component: 'about'
     })
+    .state('register', {
+      url: '/register',
+      component: 'register'
+    })
     .state('dashboard', {
       url: '/dashboard',
       component: 'dashboard',
       resolve: {
-        loginRequired : loginRequired
+        loginRequired: loginRequired
       }
     })
     .state('userDashboard', {
       url: '/user-dashboard',
       component: 'userDashboard',
       resolve: {
-        loginRequired : loginRequired
+        loginRequired: loginRequired
       }
     })
     .state('adminDashboard', {
       url: '/admin-dashboard',
       component: 'adminDashboard',
       resolve: {
-        loginRequired : loginRequired
+        loginRequired: loginRequired
       }
     });
 
-     // otherwise will take care of routing the user to the specified url
-    $urlRouterProvider.otherwise('/');
+    // otherwise will take care of routing the user to the specified url
+  $urlRouterProvider.otherwise('/');
 
-    $httpProvider.interceptors.push('APIInterceptor');
+  $httpProvider.interceptors.push('APIInterceptor');
 }
 
-function loginRequired ($q, $location, authManager, $rootScope) {
+function loginRequired($q, $location, authManager, $rootScope) {
   var deferred = $q.defer();
   var checkAuth = $rootScope.isAuthenticated;
-  //using authManager.isAuthenticated, unfortunately we can still access restricted state if we manually enter URL
-  //var a = authManager.isAuthenticated;
+  // using authManager.isAuthenticated, unfortunately we can still access restricted state if we manually enter URL
+  // var a = authManager.isAuthenticated;
   if (checkAuth) {
     deferred.resolve();
   } else {
