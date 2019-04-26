@@ -6,7 +6,7 @@ angular
     controllerAs: 'vm'
   });
 
-function userDashboardController(UserService, AuthService) {
+function userDashboardController(UserService, AuthService, EditUserService) {
   var vm = this;
 
   function getUser() {
@@ -15,6 +15,7 @@ function userDashboardController(UserService, AuthService) {
   }
   vm.user = getUser();
 
+  // vm.formChangeUsername = {};
   vm.formChangePassword = {id: vm.user.id};
 
   function clickChangePassword(data) {
@@ -25,4 +26,10 @@ function userDashboardController(UserService, AuthService) {
     }
   }
   vm.clickChangePassword = clickChangePassword;
+
+  function clickChangeUsername(data) {
+    EditUserService.editCurrentUser(vm.user.id, data);
+    // vm.user = getUser();
+  }
+  vm.clickChangeUsername = clickChangeUsername;
 }

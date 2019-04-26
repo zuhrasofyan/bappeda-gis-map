@@ -3,25 +3,81 @@
   <div class="row">
     <div class="col-xs-12">
 
-      <div class="panel panel-default" style="margin-top: 15px;">
-        <div class="panel-body">
-          <h3>User Setting</h3>
-          <h5 >Ganti Password</h5>
-          <form id="changepasswordform" name="changepasswordform" ng-submit="vm.clickChangePassword(vm.formChangePassword)" class="col-xs-12 col-md-6">
-            <div class="form-group">
-              <label for="inputNewPassword">Password baru anda:</label>
-              <input type="password" id="inputNewPassword" name="newpassword" class="form-control" placeholder="Password Baru" required="" autofocus="" ng-model="vm.formChangePassword.newPassword" ng-minlength="6">
-              <span ng-if="!changepasswordform.newpassword.$valid">minimal 6 karakter!</span>
-            </div>
-            <div class="form-group">
-              <label for="inputConfirmNewPassword">Konfirmasi password baru anda:</label>
-              <input type="password" id="inputConfirmNewPassword" class="form-control" placeholder="Konfirmasi Password Baru" required="" autofocus="" ng-model="vm.formChangePassword.confirmNewPassword">
-            </div>
-            <button class="btn btn-primary" type="submit">Ubah</button>
-          </form>
+      <div class="jumbotron" style="margin-top: 10px;">
+        <h1>Halaman User<h1>
+          <div>
+            <p>
+              kembali ke halaman dashboard:
+            </p>
+            <p><a ui-sref="dashboard" class="btn btn-primary" role="button" aria-pressed="true">Dashboard</a></p>
+          </div>
         </div>
-      </div>
 
+        <div class="panel panel-default" style="margin-top: 15px;">
+          <div class="panel-heading">
+            <h3 class="panel-title">Profil</h3>
+          </div>
+          <div class="panel-body">
+            <div class="well well-sm">
+              <div class="row">
+                <div class="col-sm-4 col-md-2">
+                  <img src="http://placehold.it/150x200" alt="" class="img-rounded img-responsive" />
+                </div>
+                <div class="col-sm-6 col-md-8">
+                  <h4>{{vm.user.username}}</h4>
+                  <small>{{vm.user.role}}</small>
+                  <p>
+                    <b>Email: </b>{{vm.user.email}}
+                    <br />
+                    <b>Terdaftar Sejak: </b> {{vm.user.createdAt | date:'dd MMMM yyyy' }}
+                    <br />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default" style="margin-top: 15px;">
+          <div class="panel-heading">
+            <h3 class="panel-title">Ganti Nama</h3>
+          </div>
+          <div class="panel-body">
+            <h5 for=""><b>Nama Anda:</b> {{vm.user.username}}</h5>
+            <form id="changeusernameform" name="changeusernameform" ng-submit="vm.clickChangeUsername(vm.user)" class="col-xs-12 col-md-6">
+              <div class="form-group">
+
+                <label for="inputNewUsername">Nama baru anda:</label>
+                <input type="text" id="inputNewUsername" name="newusername" class="form-control" placeholder="Username Baru" required="" autofocus="" ng-model="vm.user.username">
+                <span ng-if="!changeusernameform.newusername.$valid" style="color: red;">Tidak Boleh Kosong</span>
+              </div>
+
+              <button class="btn btn-primary" type="submit" ng-disabled="changeusernameform.$invalid">Ubah</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="panel panel-default" style="margin-top: 15px;">
+          <div class="panel-heading">
+            <h3 class="panel-title">Penggantian Password</h3>
+          </div>
+          <div class="panel-body">
+            <h5 >Ganti Password</h5>
+            <form id="changepasswordform" name="changepasswordform" ng-submit="vm.clickChangePassword(vm.formChangePassword)" class="col-xs-12 col-md-6">
+              <div class="form-group">
+                <label for="inputNewPassword">Password baru anda:</label>
+                <input type="password" id="inputNewPassword" name="newpassword" class="form-control" placeholder="Password Baru" required="" autofocus="" ng-model="vm.formChangePassword.newPassword" ng-minlength="6">
+                <span ng-if="!changepasswordform.newpassword.$valid" style="color: red;">minimal 6 karakter!</span>
+              </div>
+              <div class="form-group">
+                <label for="inputConfirmNewPassword">Konfirmasi password baru anda:</label>
+                <input type="password" id="inputConfirmNewPassword" class="form-control" placeholder="Konfirmasi Password Baru" required="" autofocus="" ng-model="vm.formChangePassword.confirmNewPassword">
+              </div>
+              <button class="btn btn-danger" type="submit" ng-disabled="changepasswordform.$invalid">Ubah</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
