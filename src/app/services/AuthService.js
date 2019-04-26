@@ -12,7 +12,7 @@ angular
           alert(result.data);
         } else if (result.status === 200) {
           alert('user berhasil didaftarkan. \nSilahkan cek email untuk mengaktifkan akun anda \nsebelum anda login.');
-          $state.go('login')
+          $state.go('login');
         } else {
           alert('Terjadi kesalahan pada server.');
         }

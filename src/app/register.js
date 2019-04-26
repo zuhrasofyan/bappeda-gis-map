@@ -7,7 +7,7 @@ angular
     controllerAs: 'vm'
   });
 
-function registerController() {
+function registerController(AuthService) {
   var vm = this;
 
   vm.formRegister = {};
@@ -17,7 +17,7 @@ function registerController() {
       alert('Konfirmasi password baru anda salah');
     } else {
       console.log(data);
-      // buat layanan register new user
+      AuthService.submitRegister(data);
     }
   }
 

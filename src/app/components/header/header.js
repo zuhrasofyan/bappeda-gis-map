@@ -1,5 +1,3 @@
-
-
 angular
 .module('app')
 .component('header', {
@@ -13,9 +11,8 @@ function headerController($rootScope, AuthService) {
   vm.navCollapsed = true;
   vm.isAuthenticated = $rootScope.isAuthenticated;
 
-  function logout(){
+  function logout() {
     AuthService.logout();
   }
   vm.logout = logout;
-  
 }

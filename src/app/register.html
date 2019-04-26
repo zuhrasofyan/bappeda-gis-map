@@ -1,21 +1,22 @@
 <header></header>
 
 <div class="container">
-  <form id="registerform" class="form-signup" ng-submit="vm.clickRegister(vm.formRegister)">
+  <form id="registerform" name="registerform" class="form-signup" ng-submit="vm.clickRegister(vm.formRegister)">
     <h2 class="form-signin-heading">DAFTAR SIGAP</h2>
     <div class="form-group">
-      <label for="inputEmail" class="sr-only">Email address</label>
+      <label for="inputEmail">Alamat Email</label>
       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="vm.formRegister.email">
     </div>
     <div class="form-group">
-      <label for="inputPassword" class="sr-only">Password</label>
+      <label for="inputPassword">Password</label>
       <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="" ng-model="vm.formRegister.password" ng-minlength="6">
-      <span ng-if="!registerform.password.$valid">minimal 6 karakter!</span>
+      <span ng-if="!registerform.password.$valid" style="color: red;">minimal 6 karakter!</span>
     </div>
     <div class="form-group">
-      <label for="inputPassword2" class="sr-only">Password</label>
-      <input type="password" id="inputPassword2" class="form-control" placeholder="Password" required="" ng-model="vm.formRegister.password2">
+      <label for="inputPassword2">Konfirmasi Password</label>
+      <input type="password" id="inputPassword2" class="form-control" placeholder="Konfirmasi Password" required="" ng-model="vm.formRegister.password2">
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="registerform.$invalid">Daftar!</button>
+    <div style="padding-top: 15px;">Sudah punya akun? silahkan <a ui-sref="login">login</a> </div>
   </form>
 </div>

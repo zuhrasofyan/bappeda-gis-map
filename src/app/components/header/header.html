@@ -13,8 +13,8 @@
     <div class="collapse navbar-collapse" uib-collapse="vm.navCollapsed">
         <ul class="nav navbar-nav">
             <li ng-if="vm.isAuthenticated"><a ui-sref="dashboard">dashboard</a></li>
-            <li><a href="http://bappeda.bandaacehkota.go.id/webgis">WEBGIS</a></li>
             <li><a ui-sref="about">Apa itu SIGAP?</a></li>
+            <li><a href="http://bappeda.bandaacehkota.go.id/webgis" style="color: #C2C5CC;">WEBGIS</a></li>
             <!-- <li class="dropdown" uib-dropdown>
                 <a href="#" class="dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Layer Utama <span class="caret"></span></a>
                 <ul class="dropdown-menu" uib-dropdown-menu>
@@ -39,9 +39,10 @@
                     <li><a href="#">One more separated link</a></li>
                 </ul>
             </li> -->
-            
+
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li ng-if="!vm.isAuthenticated"><a ui-sref="register">Daftar</a></li>
             <li ng-if="!vm.isAuthenticated"><a ui-sref="login">Login</a></li>
             <li ng-if="vm.isAuthenticated"><button class="btn navbar-btn btn-primary" ng-click="vm.logout()">Logout</button></li>
         </ul>
