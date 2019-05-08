@@ -2,7 +2,7 @@ angular
 .module('app')
 .service('LayerService', LayerService);
 
-function LayerService($http, APIURL) {
+function LayerService($http, APIURL, $state) {
   var vm = this;
 
   function submitLayer(layer) {
@@ -14,7 +14,7 @@ function LayerService($http, APIURL) {
         alert(result.data);
       } else if (result.status === 200) {
         alert('layer berhasil disimpan');
-        // $state.reload();
+        $state.reload();
       } else {
         alert('Terjadi kesalahan pada server.');
       }
@@ -26,4 +26,20 @@ function LayerService($http, APIURL) {
     return $http.get(APIURL + 'sigap/layer-list/' + id);
   }
   vm.getLayerList = getLayerList;
+
+  function editLayer(layer) {
+    $http.patch(APIURL + 'sigap/edit-layer/' + layer.userId + '/' +layer.id, {
+      newLayerName: layer.name
+    }).then(function(result){
+      if (result.status !== 200) {
+        alert(result.data);
+      } else if (result.status === 200) {
+        alert('layer berhasil diubah');
+        $state.reload();
+      } else {
+        alert('Terjadi kesalahan pada server.');
+      }
+    });
+  }
+  vm.editLayer = editLayer;
 }

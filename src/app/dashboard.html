@@ -43,8 +43,32 @@
 						</tr>
 						<tr ng-repeat="layer in vm.layerList">
 							<td>{{$index+1}}.</td>
-							<td>{{layer.name}}</td>
-							<td><button type="button" class="btn btn-sm btn-success" ng-click="vm.bukaModal(layer, vm.markers)">Lihat Tabel koordinatnya</button></td>
+							<td>
+                <span ng-if="layer.toggle == false || !layer.toggle">{{layer.name}}</span>
+                <div class="input-group input-group-sm" ng-if="layer.toggle == true">
+                  <input type="text" class="form-control" placeholder="Nama Layer baru" ng-model="layer.name" required="">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-sm btn-success" ng-click="vm.editLayer(layer)" ng-disabled="layer.name == null">
+                      <i class="glyphicon glyphicon-floppy-disk"></i>
+                      <span>SAVE</span>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-info" ng-click="vm.cancelEditLayer(layer)">
+                      <i class="glyphicon glyphicon-remove"></i>
+                      <span>CANCEL</span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+							<td>
+                <button type="button" class="btn btn-sm btn-danger" ng-click="vm.clickToEditLayer(layer)" ng-if="false || !layer.toggle">
+                  <i class="glyphicon glyphicon-pencil"></i>
+                  <span>Edit</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-success" ng-click="vm.bukaModal(layer, vm.markers)">
+                  <i class="glyphicon glyphicon-list"></i>
+                  <span>Lihat Tabel koordinatnya</span>
+                </button>
+              </td>
 						</tr>
 					</table>
 				</div>

@@ -44,6 +44,34 @@ function dashboardController(UserService, LayerService, MarkerService, $state, $
     }
   });
 
+  /**
+   * This is area to define editlayer
+  */
+  vm.oldLayerName = '';
+
+
+  function clickToEditLayer(layer) {
+    layer.toggle = true;
+    vm.oldLayerName = layer.name;
+  }
+  vm.clickToEditLayer = clickToEditLayer;
+
+  function editLayer(layer) {
+    layer.toggle = false;
+    LayerService.editLayer(layer);
+  }
+  vm.editLayer = editLayer;
+
+  function cancelEditLayer(layer) {
+    layer.name = vm.oldLayerName;
+    layer.toggle = false;
+  }
+  vm.cancelEditLayer = cancelEditLayer;
+
+  /**
+   * End editLayer
+  */
+
 
   // show marker list of each layer
   // based on http://brianhann.com/pass-data-to-a-ui-bootstrap-modal-without-scope/
