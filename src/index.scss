@@ -102,4 +102,9 @@ $icon-font-path: '../fonts/' !default;
   z-index: 5000;
 }
 
+.leaflet-control-layers {
+  max-height: 400px;
+  overflow: auto;
+}
+
 
