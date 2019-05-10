@@ -72,6 +72,16 @@ function dashboardController(UserService, LayerService, MarkerService, $state, $
    * End editLayer
   */
 
+  function clickToDeactivateLayer(layer) {
+    LayerService.deactivateLayer(layer);
+  }
+  vm.clickToDeactivateLayer = clickToDeactivateLayer;
+
+  function clickToActivateLayer(layer) {
+    LayerService.activateLayer(layer);
+  }
+  vm.clickToActivateLayer = clickToActivateLayer;
+
 
   // show marker list of each layer
   // based on http://brianhann.com/pass-data-to-a-ui-bootstrap-modal-without-scope/
