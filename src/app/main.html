@@ -57,7 +57,8 @@
                 <th>Info</th>
                 <th></th>
             </tr>
-            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.id.toString()}" id="{{marker.pointId}}">
+            <!-- USING TRUE IN FILTER WILL ONLY RETURN EXACT VALUE FILTER -->
+            <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.selectedLayer.id.toString()}:true" id="{{marker.pointId}}">
                 <td>{{$index+1}}.</td>
                 <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lat" ng-disabled="!marker.draggable"></td>
                 <td><input class="form-control input-width-small input-sm" type="text" ng-model="marker.lng" ng-disabled="!marker.draggable"></td>
