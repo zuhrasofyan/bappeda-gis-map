@@ -46,7 +46,7 @@ function mainController($rootScope, $scope, leafletData, $timeout, MapLayerServi
   };
 
   // Get layer list from server and push it to appropiate places in this page
-  LayerService.getLayerList(vm.user.id).then(function(d) {
+  LayerService.getActiveLayerList(vm.user.id).then(function(d) {
     var temp = d.data;
     var tempLength = temp.length;
     for (var i = 0; i < tempLength; i++) {
