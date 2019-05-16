@@ -45,6 +45,9 @@
                   <th>No</th>
                   <th>Nama Layer</th>
                   <th></th>
+                  <th></th>
+                  <th>Status</th>
+                  <th></th>
                 </tr>
                 <tr ng-repeat="layer in vm.layerList | filter: {isDeleted: false}">
                   <td>{{$index+1}}.</td>
@@ -69,10 +72,15 @@
                       <i class="glyphicon glyphicon-pencil"></i>
                       <span>Edit</span>
                     </button>
+                  </td>
+                  <td>
                     <button type="button" class="btn btn-sm btn-success" ng-click="vm.bukaModal(layer, vm.markers)">
                       <i class="glyphicon glyphicon-list"></i>
                       <span>Lihat Tabel koordinatnya</span>
                     </button>
+                  </td>
+                  <td>{{layer.status}}</td>
+                  <td>
                     <button type="button" class="btn btn-sm btn-danger" ng-click="vm.clickToDeactivateLayer(layer)">
                       <i class="glyphicon glyphicon-trash"></i>
                       <span>Nonaktifkan Layer</span>
