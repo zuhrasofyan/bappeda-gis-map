@@ -9,7 +9,7 @@
             <th>Lon</th>
             <th>Info</th>
         </tr>
-        <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.layer.id.toString()}" id="{{marker.pointId}}">
+        <tr ng-repeat="marker in vm.markers | filter:{'layer':vm.layer.id}:true" id="{{marker.pointId}}">
             <td>{{$index+1}}.</td>
             <td>{{marker.lat}}</td>
             <td>{{marker.lng}}</td>
