@@ -11,6 +11,21 @@ function mainController($rootScope, $scope, leafletData, $timeout, MapLayerServi
 
   vm.isAuthenticated = $rootScope.isAuthenticated;
 
+
+  // io.socket.get('/sigap/say/hello', function(msg){
+  //   console.log('connect ya');
+  //   console.log(msg);
+  // });
+  io.socket.get('/sigap/subscribe', function (msg) {
+    console.log(JSON.stringify(msg, null, 2));
+  });
+
+  io.socket.on('layers', function (msg) {
+    if (msg.verb === 'created') {
+      console.log(msg.data);
+    }
+  })
+
   // get user
   function getUser() {
     var a = UserService.getCurrentUser();
