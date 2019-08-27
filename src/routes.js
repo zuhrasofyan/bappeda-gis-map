@@ -44,6 +44,13 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $ht
       resolve: {
         loginRequired: loginRequired
       }
+    })
+    .state('adminViewUserDashboard', {
+      url: '/admin-user-dashboard',
+      component: 'adminViewUserDashboard',
+      resolve: {
+        loginRequired: loginRequired
+      }
     });
 
     // otherwise will take care of routing the user to the specified url
