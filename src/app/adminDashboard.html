@@ -24,7 +24,7 @@
 						<tr ng-repeat="row in vm.thisPageUser">
 							<td>{{row.username}}</td>
 							<td>{{row.role}}</td>
-							<td>button?</td>
+							<td><a ui-sref="adminViewUserDashboard({userId: row.id})" class="btn btn-primary" role="button" aria-pressed="true">Detail</a></td>
 						</tr>
 				    </table>
 				    <ul uib-pagination total-items="vm.totalUser" ng-model="currentPage" items-per-page="vm.userPerPage"></ul>

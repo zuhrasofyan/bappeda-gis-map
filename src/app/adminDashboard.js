@@ -11,8 +11,8 @@ function adminDashboardController(UserManagementService, $scope) {
 
   // get the list of user first
   UserManagementService.getAllUser().then(function(d){
-  	vm.users = d.data;
-  	vm.totalUser = d.data.length;
+    vm.users = d.data;
+    vm.totalUser = d.data.length;
 
     // Pagination of users
     vm.viewBy = 10;
@@ -20,15 +20,15 @@ function adminDashboardController(UserManagementService, $scope) {
     vm.userPerPage = vm.viewBy;
     vm.maxSize = 5; // Max number of page buttons to show
 
-    vm.setPage = function(pageNo) {
+    vm.setPage = function (pageNo) {
       $scope.currentPage = pageNo;
-    }
+    };
 
     vm.pageChanged = function() {
       console.log('Page changed to: ' + $scope.currentPage);
     };
 
-    // set paging should be inside this called function UserManagementService.getAllUser() 
+    // set paging should be inside this called function UserManagementService.getAllUser()
     // otherwise, scope watch is being executed first before vm.users loaded, thus, list of user is undefined.
     function setPagingData(page) {
       var pagedData = vm.users.slice(
@@ -38,12 +38,8 @@ function adminDashboardController(UserManagementService, $scope) {
       vm.thisPageUser = pagedData;
     }
 
-    $scope.$watch("currentPage", function() {
+    $scope.$watch("currentPage", function () {
       setPagingData($scope.currentPage);
     });
   });
-  
-
-  
-
 }

@@ -6,7 +6,10 @@ angular
     controllerAs: 'vm'
   });
 
-function adminViewUserDashboardController() {
+function adminViewUserDashboardController(UserManagementService, $stateParams) {
   var vm = this;
-  vm.hello = 'hello yaa';
+  var userId = $stateParams.userId;
+  UserManagementService.getUser(userId).then(function (d) {
+    vm.user = d.data;
+  });
 }
